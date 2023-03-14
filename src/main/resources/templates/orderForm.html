@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza Enjoy</title>
+</head>
+    <body>
+        <form method="post" th:action="@{/orders}" th:object="${pizzaOrder}">
+            <h1>Order your pizza creations</h1>
+            <img th:src="@{/images/PizzaEnjoy.png}">
+            <h3>Your pizzas in this order:</h3>
+            <a th:href="@{/design}" id="another">Design another pizza</a><br/>
+
+            <ul>
+                <li th:each="pizza : ${pizzaOrder.pizzas}">
+                <span th:text="${pizza.name}"></span>
+                </li>
+            </ul>
+
+            <h3>Deliver my pizza masterpiece to...</h3>
+            <label for="deliveryName">Name: </label>
+            <input id="deliveryName" type="text" th:field="*{deliveryName}"/>
+            <br/>
+
+            <label for="deliveryStreet">Street address: </label>
+            <input id="deliveryStreet" type="text" th:field="*{deliveryStreet}"/>
+            <br/>
+
+            <label for="deliveryCity">City: </label>
+            <input id="deliveryCity" type="text" th:field="*{deliveryCity}"/>
+            <br/>
+
+            <label for="deliveryState">State: </label>
+            <input id="deliveryState" type="text" th:field="*{deliveryState}"/>
+            <br/>
+
+            <label for="deliveryZip">Zip code: </label>
+            <input id="deliveryZip" type="text" th:field="*{deliveryZip}"/>
+            <br/>
+
+            <h3>Here's how I'll pay...</h3>
+            <label for="ccNumber">Credit Card #: </label>
+            <input id="ccNumber" type="text" th:field="*{ccNumber}"/>
+            <br/>
+
+            <h3>Here's how I'll pay...</h3>
+            <label for="ccExpiration">Expiration: </label>
+            <input id="ccExpiration" type="text" th:field="*{ccExpiration}"/>
+            <br/>
+
+            <label for="ccCVV">CVV: </label>
+            <input id="ccCVV" type="text" th:field="*{ccCVV}"/>
+            <br/>
+            <input type="submit" value="Submit Order">
+        </form>
+    </body>
+</html>
