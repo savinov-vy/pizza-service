@@ -21,7 +21,7 @@ class HomeControllerTest {
     public void testHomePage() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("home1"))
+                .andExpect(view().name("home"))
                 .andExpect(MockMvcResultMatchers.content().string(containsString("Welcome to...")));
     }
 

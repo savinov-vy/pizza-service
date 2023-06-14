@@ -69,7 +69,7 @@ public class DesignPizzaController {
     private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
         return ingredients
                 .stream()
-                .filter(x -> x.getType().equals(type))
+                .filter(ingredient -> ingredient.getType().equals(type))
                 .collect(Collectors.toList());
     }
 

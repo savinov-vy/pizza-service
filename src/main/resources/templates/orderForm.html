@@ -13,7 +13,7 @@
             <a th:href="@{/design}" id="another">Design another pizza</a><br/>
 
             <ul>
-                <li th:each="pizza : ${pizzaOrder.pizzas}">
+                <li th:each="pizza : ${pizzaOrder?.pizzas}">
                 <span th:text="${pizza.name}"></span>
                 </li>
             </ul>
@@ -44,7 +44,6 @@
             <input id="ccNumber" type="text" th:field="*{ccNumber}"/>
             <br/>
 
-            <h3>Here's how I'll pay...</h3>
             <label for="ccExpiration">Expiration: </label>
             <input id="ccExpiration" type="text" th:field="*{ccExpiration}"/>
             <br/>
