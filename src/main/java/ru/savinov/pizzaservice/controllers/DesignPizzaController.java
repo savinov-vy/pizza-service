@@ -1,5 +1,6 @@
 package ru.savinov.pizzaservice.controllers;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +13,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.savinov.pizzaservice.entities.Ingredient;
 import ru.savinov.pizzaservice.entities.Pizza;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
+import ru.savinov.pizzaservice.repositories.IngredientRepository;
 
 import javax.validation.Valid;
 
 import static ru.savinov.pizzaservice.entities.Ingredient.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,22 +27,15 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("pizzaOrder")
+@AllArgsConstructor
 public class DesignPizzaController {
+
+    private final IngredientRepository ingredientRepo;
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = Arrays.asList(
-                new Ingredient("FLTO", "Flour Tortilla", Type.CHEESE),
-                new Ingredient("CHED", "Cheddar", Type.CHEESE),
-                new Ingredient("COTO", "Corn Tortilla", Type.SAUSAGE),
-                new Ingredient("GRBF", "Ground Beef", Type.THICK_CRUST),
-                new Ingredient("CARN", "Carnitas", Type.THIN_CRUST),
-                new Ingredient("LETC", "Lettuce", Type.TOMATO),
-                new Ingredient("JACK", "Monterrey Jack", Type.VEGGIES),
-                new Ingredient("SLSA", "Salsa", Type.TOMATO)
-        );
-
-        Type[] types = Type.values();
+        List<Ingredient> ingredients = (List<Ingredient>) ingredientRepo.findAll();
+        Type[] types = Ingredient.Type.values();
         for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
