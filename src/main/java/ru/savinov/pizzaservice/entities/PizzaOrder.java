@@ -1,16 +1,21 @@
 package ru.savinov.pizzaservice.entities;
 
 import lombok.Data;
+import lombok.Setter;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
+@Setter
 public class PizzaOrder {
+
+    private Long id;
 
     @NotBlank(message = "Delivery name is required")
     private String deliveryName;
@@ -36,6 +41,8 @@ public class PizzaOrder {
 
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
+
+    private Date placedAt;
 
     private List<Pizza> pizzas = new ArrayList<>();
 

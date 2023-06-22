@@ -1,13 +1,13 @@
 delete
-from Ingredient_Ref;
+from ingredient_ref;
 delete
-from Pizza;
+from pizza;
 delete
-from Pizza_Order;
+from pizza_order;
 delete
-from Ingredient;
+from ingredient;
 
-insert into Ingredient (id, name, type)
+insert into ingredient (id, name, type)
 values ('FLTO', 'Flour Tortilla', 'CHEESE'),
        ('CHED', 'Cheddar', 'CHEESE'),
        ('COTO', 'Corn Tortilla', 'SAUSAGE'),

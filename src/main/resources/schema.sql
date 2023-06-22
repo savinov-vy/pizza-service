@@ -16,16 +16,15 @@ create table if not exists pizza
 (
     id              identity,
     name            varchar(50) not null,
-    pizza_order     bigint      not null,
-    pizza_order_key bigint      not null,
     created_at      timestamp   not null,
-    pizza_order_id  varchar(50)
+    pizza_order_key bigint      not null,
+    pizza_order_id  bigint      not null
 );
 
 create table if not exists ingredient_ref
 (
-    ingredient varchar(4) not null,
-    pizza      bigint     not null,
+    ingredient_id varchar(4) not null,
+    pizza_id      bigint     not null,
     pizza_key  bigint     not null
 );
 
@@ -38,4 +37,6 @@ create table if not exists ingredient
 alter table pizza
     add constraint fk_pizza_on_pizza_order foreign key (pizza_order_id) references pizza_order (id);
 alter table ingredient_ref
-    add constraint fk_ingredient_ref_on_ingredient foreign key (ingredient) references ingredient (id);
+    add constraint fk_ingredient_ref_on_ingredient foreign key (ingredient_id) references ingredient (id);
+alter table ingredient_ref
+    add constraint fk_ingredient_ref_on_pizza foreign key (pizza_id) references pizza (id);

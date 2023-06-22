@@ -1,5 +1,6 @@
 package ru.savinov.pizzaservice.controllers;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
+import ru.savinov.pizzaservice.repositories.OrderRepository;
 
 import javax.validation.Valid;
 
@@ -16,7 +18,10 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("pizzaOrder")
+@AllArgsConstructor
 public class OrderController {
+
+    private OrderRepository orderRepo;
 
     @GetMapping("/current")
     public String orderForm() {
@@ -28,7 +33,7 @@ public class OrderController {
         if (errors.hasErrors()) {
             return "orderForm";
         }
-        log.info("Order submitted: {}", order);
+        orderRepo.save(order);
         sessionStatus.setComplete();
         return "redirect:/";
     }

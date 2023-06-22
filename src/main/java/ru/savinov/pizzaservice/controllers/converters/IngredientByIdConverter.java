@@ -7,6 +7,7 @@ import ru.savinov.pizzaservice.repositories.IngredientRepository;
 
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {
+
     private final IngredientRepository ingredientRepo;
 
     public IngredientByIdConverter(IngredientRepository ingredientRepo) {

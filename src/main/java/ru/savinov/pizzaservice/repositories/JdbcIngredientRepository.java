@@ -13,6 +13,7 @@ import java.util.Optional;
 @Repository
 @AllArgsConstructor
 public class JdbcIngredientRepository implements IngredientRepository {
+
     private JdbcTemplate jdbcTemplate;
 
     @Override
@@ -47,4 +48,5 @@ public class JdbcIngredientRepository implements IngredientRepository {
                 Ingredient.Type.valueOf(row.getString("type"))
         );
     }
+
 }
