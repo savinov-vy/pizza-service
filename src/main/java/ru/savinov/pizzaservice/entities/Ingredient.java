@@ -9,8 +9,6 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import static java.util.Objects.isNull;
-
 @Data
 @Table("INGREDIENT")
 @AllArgsConstructor
@@ -32,7 +30,7 @@ public class Ingredient implements Persistable<String> {
 
     @Override
     public boolean isNew() {
-        return isNull(id);
+        return true;
     }
 
 }
