@@ -1,36 +1,27 @@
 package ru.savinov.pizzaservice.entities;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.domain.Persistable;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Data
-@Table("INGREDIENT")
+@Entity
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-public class Ingredient implements Persistable<String> {
+@NoArgsConstructor
+public class Ingredient {
 
     @Id
     private String id;
 
-    @Column("NAME")
     private String name;
 
-    @Column("TYPE")
     private Type type;
 
     public enum Type {
         CHEESE, THIN_CRUST, THICK_CRUST, SAUSAGE, TOMATO, VEGGIES
-    }
-
-    @Override
-    public boolean isNew() {
-        return true;
     }
 
 }

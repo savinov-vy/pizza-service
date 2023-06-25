@@ -2,33 +2,36 @@ package ru.savinov.pizzaservice.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
 @Data
-@Table("PIZZA")
+@Entity
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = "createdAt")
 public class Pizza {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
-    @Column("NAME")
     @Size(min = 5, message = "Name must be at least 5 characters long")
     private String name;
 
-    @NotNull
+    @ManyToMany
     @Size(min = 1, message = "You must choose at least 1 ingredient")
-    private List<IngredientRef> ingredients;
+    private List<Ingredient> ingredients;
 
-    @Column("CREATED_AT")
     private Date createdAt = new Date();
 
 }
