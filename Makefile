@@ -9,3 +9,9 @@ down-db:
 .PHONY: test
 test:
 	 ./mvnw test
+
+.PHONY: cassandra-up
+cassandra-up:
+	docker network create cassandra-net && \
+	docker run --name my-cassandra --network cassandra-net -p 9042:9042 -d cassandra:4.1.2 && \
+	docker run -it --network cassandra-net --rm cassandra cqlsh my-cassandra
