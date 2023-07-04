@@ -14,9 +14,9 @@ public interface OrderRepository extends CrudRepository<PizzaOrder, Long> {
 
     List<PizzaOrder> readOrdersByDeliveryZipAndPlacedAtBetween(String deliveryZip, Date startDate, Date endDate);
 
-    List<PizzaOrder> findByDeliveryToAndDeliveryCityAllIgnoresCase(String deliveryTo, String deliveryCity);
+    List<PizzaOrder> findByDeliveryStreetAndDeliveryCityIgnoreCase(String deliveryStreet, String deliveryCity);
 
-    List<PizzaOrder> findByDeliveryCityOrderByDeliveryTo(String city);
+    List<PizzaOrder> findByDeliveryCityOrderByDeliveryName(String city);
 
     @Query("select o from PizzaOrder o where o.deliveryCity = :city")
     List<PizzaOrder> readOrdersDeliveredInSeattle(@Param("city") String city);
