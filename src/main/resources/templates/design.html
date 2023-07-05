@@ -10,6 +10,9 @@
 <h1>Design your pizza!</h1>
 <img th:src="@{/images/PizzaEnjoy.png}"/>
 <form method="post" th:object="${pizza}">
+    <span class="validationError"
+          th:if="${#fields.hasErrors('ingredients')}"
+          th:errors="*{ingredients}">ingredients error</span>
     <div class="grid">
         <h3>Designate your sausage:</h3>
         <div th:each="ingredient : ${sausage}">
