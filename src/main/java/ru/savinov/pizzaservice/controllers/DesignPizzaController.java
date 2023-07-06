@@ -2,6 +2,7 @@ package ru.savinov.pizzaservice.controllers;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -57,8 +58,12 @@ public class DesignPizzaController {
     }
 
     @PostMapping
-    public String processPizza(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder) {
+    public String processPizza(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder, Model model) {
         if (errors.hasErrors()) {
+            List<String> allErrors = errors.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+            model.addAttribute("allErrors", allErrors);
             return "design";
         }
         pizzaOrder.addPizza(pizza);

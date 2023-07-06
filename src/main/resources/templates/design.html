@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Pizza Enjoy</title>
-    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <link rel="stylesheet" th:href="@{/css/design.css}"/>
 </head>
 <body>
 <h1>Design your pizza!</h1>
 <img th:src="@{/images/PizzaEnjoy.png}"/>
 <form method="post" th:object="${pizza}">
-    <span class="validationError"
-          th:if="${#fields.hasErrors('ingredients')}"
-          th:errors="*{ingredients}">ingredients error</span>
+    <span style="display: block" class="validationError"
+          th:each="error : ${allErrors}"
+          th:text="${error}">ingredients error</span>
     <div class="grid">
         <h3>Designate your sausage:</h3>
         <div th:each="ingredient : ${sausage}">
