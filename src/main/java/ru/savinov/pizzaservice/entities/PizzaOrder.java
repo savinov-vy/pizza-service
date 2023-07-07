@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +40,7 @@ public class PizzaOrder implements Serializable {
     private String deliveryCity;
 
     @NotBlank(message = "State is required")
+    @Size(min = 2, max = 2, message = "Name must be 2 characters long")
     private String deliveryState;
 
     @NotBlank(message = "Zip code is required")
