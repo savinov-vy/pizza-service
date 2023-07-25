@@ -9,7 +9,7 @@
 <body>
 <h1>Design your pizza!</h1>
 <img th:src="@{/images/PizzaEnjoy.png}"/>
-<form method="post" th:object="${pizza}">
+<form method="post" th:action="@{/design}" th:object="${pizza}">
     <span style="display: block" class="validationError"
           th:each="error : ${allErrors}"
           th:text="${error}">ingredients error</span>
