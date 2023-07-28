@@ -10,9 +10,6 @@ spring:
     username: sa
     password:
 
-  profiles:
-    active:
-
 pizza:
   orders:
-    sizePage: 10
+    sizePage: 20
