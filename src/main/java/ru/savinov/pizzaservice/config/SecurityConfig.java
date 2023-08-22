@@ -20,6 +20,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                .headers().frameOptions().disable()
+
+                .and()
                 .authorizeRequests()
                 .mvcMatchers("/design", "/orders").access("hasRole('USER')")
                 .antMatchers("/", "/**").access("permitAll")
@@ -29,6 +32,10 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .defaultSuccessUrl("/design")
                 .loginProcessingUrl("/authenticateTheUser")
+
+                .and()
+                .csrf()
+                .ignoringAntMatchers("/h2-console/**")
 
                 .and()
                 .logout()
