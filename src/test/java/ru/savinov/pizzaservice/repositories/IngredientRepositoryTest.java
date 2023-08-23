@@ -1,5 +1,6 @@
 package ru.savinov.pizzaservice.repositories;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,11 +20,16 @@ class IngredientRepositoryTest {
     @Autowired
     JdbcTemplate jdbc;
 
+    @BeforeEach
+    void setUp() {
+        ingredientRepo.save(Ingredient.of("FLTO", "Flour Tortilla", Ingredient.Type.CHEESE));
+    }
+
     @Test
     public void findById() {
         Optional<Ingredient> flto = ingredientRepo.findById("FLTO");
         assertThat(flto.isPresent()).isTrue();
-        assertThat(flto.get()).isEqualTo(new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.CHEESE));
+        assertThat(flto.get()).isEqualTo(Ingredient.of("FLTO", "Flour Tortilla", Ingredient.Type.CHEESE));
 
         Optional<Ingredient> xxxx = ingredientRepo.findById("XXXX");
         assertThat(xxxx.isEmpty()).isTrue();

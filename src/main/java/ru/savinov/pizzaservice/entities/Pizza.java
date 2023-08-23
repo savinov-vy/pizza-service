@@ -1,5 +1,6 @@
 package ru.savinov.pizzaservice.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor(staticName = "of")
 @EqualsAndHashCode(exclude = "createdAt")
 public class Pizza {
 

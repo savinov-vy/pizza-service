@@ -19,7 +19,7 @@ class IngredientByIdConverterTest {
     public void setup() {
         IngredientRepository ingredientRepo = mock(IngredientRepository.class);
         when(ingredientRepo.findById("AAAA"))
-                .thenReturn(Optional.of(new Ingredient("AAAA", "TEST INGREDIENT", Ingredient.Type.CHEESE)));
+                .thenReturn(Optional.of(Ingredient.of("AAAA", "TEST INGREDIENT", Ingredient.Type.CHEESE)));
         when(ingredientRepo.findById("ZZZZ"))
                 .thenReturn(Optional.empty());
 
@@ -29,7 +29,7 @@ class IngredientByIdConverterTest {
     @Test
     public void shouldReturnValueWhenPresent() {
         assertThat(converter.convert("AAAA"))
-                .isEqualTo(new Ingredient("AAAA", "TEST INGREDIENT", Ingredient.Type.CHEESE));
+                .isEqualTo(Ingredient.of("AAAA", "TEST INGREDIENT", Ingredient.Type.CHEESE));
     }
 
     @Test

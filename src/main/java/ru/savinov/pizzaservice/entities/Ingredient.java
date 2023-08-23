@@ -9,8 +9,8 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class Ingredient {
 
     @Id

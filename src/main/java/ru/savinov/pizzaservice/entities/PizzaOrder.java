@@ -1,6 +1,8 @@
 package ru.savinov.pizzaservice.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
@@ -23,6 +25,8 @@ import java.util.List;
 @Data
 @Entity
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor(staticName = "of")
 public class PizzaOrder implements Serializable {
 
     private static final long serialVersionUID = -332167508885431556L;
