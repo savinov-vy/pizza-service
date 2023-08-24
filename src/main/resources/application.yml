@@ -15,4 +15,4 @@ spring:
 
 pizza:
   orders:
-    sizePage: 10
+    sizePage: 3

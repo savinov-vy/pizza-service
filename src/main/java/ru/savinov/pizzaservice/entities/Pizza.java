@@ -1,9 +1,11 @@
 package ru.savinov.pizzaservice.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import ru.savinov.pizzaservice.controllers.dto.PizzaDto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 @EqualsAndHashCode(exclude = "createdAt")
@@ -35,5 +38,13 @@ public class Pizza {
     private List<Ingredient> ingredients;
 
     private Date createdAt = new Date();
+
+    public static Pizza ofDto(PizzaDto dto) {
+        return Pizza.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .ingredients(dto.getIngredients())
+                .build();
+    }
 
 }

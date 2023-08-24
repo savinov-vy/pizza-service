@@ -12,10 +12,10 @@ import javax.validation.constraints.Min;
 @Component
 @Validated
 @ConfigurationProperties(prefix = "pizza.orders")
-public class OrderSizeProps {
+public class PizzaPageProps {
 
-    @Min(value=5, message="must be between 5 and 45")
-    @Max(value=45, message="must be between 5 and 45")
+    @Min(value=2, message="must be between 2 and 4")
+    @Max(value=4, message="must be between 2 and 4")
     int sizePage;
 
 }

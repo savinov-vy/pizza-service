@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.savinov.pizzaservice.controllers.dto.RegistrationFormDto;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 
 @Controller
@@ -22,8 +23,9 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String processRegistration(RegistrationForm form) {
+    public String processRegistration(RegistrationFormDto form) {
         userRepo.save(form.toUser(passwordEncoder));
         return "redirect:/login";
     }
+
 }

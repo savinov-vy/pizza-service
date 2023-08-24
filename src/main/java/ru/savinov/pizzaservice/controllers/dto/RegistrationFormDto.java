@@ -1,11 +1,11 @@
-package ru.savinov.pizzaservice.controllers;
+package ru.savinov.pizzaservice.controllers.dto;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.savinov.pizzaservice.entities.User;
 
 @AllArgsConstructor
-public class RegistrationForm {
+public class RegistrationFormDto {
 
     private String username;
     private String password;

@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.savinov.pizzaservice.config.OrderSizeProps;
+import ru.savinov.pizzaservice.config.PizzaPageProps;
 import ru.savinov.pizzaservice.repositories.IngredientRepository;
 import ru.savinov.pizzaservice.repositories.OrderRepository;
 import ru.savinov.pizzaservice.repositories.PizzaRepository;
@@ -31,7 +31,7 @@ public class HomeControllerTest {
     @MockBean
     private IngredientRepository ingredientRepository;
     @MockBean
-    OrderSizeProps orderSizeProps;
+    PizzaPageProps pizzaPageProps;
     @MockBean
     PizzaRepository pizzaRepository;
     @MockBean

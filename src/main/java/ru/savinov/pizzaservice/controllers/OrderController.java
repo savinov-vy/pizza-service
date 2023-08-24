@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import ru.savinov.pizzaservice.config.OrderSizeProps;
+import ru.savinov.pizzaservice.config.PizzaPageProps;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.repositories.OrderRepository;
@@ -28,7 +28,7 @@ import javax.validation.Valid;
 public class OrderController {
 
     private OrderRepository orderRepo;
-    private OrderSizeProps orderSizeProps;
+    private PizzaPageProps pizzaPageProps;
 
     @GetMapping("/current")
     public String orderForm() {
@@ -52,7 +52,7 @@ public class OrderController {
 
     @GetMapping
     public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
-        int sizePage = orderSizeProps.getSizePage();
+        int sizePage = pizzaPageProps.getSizePage();
         Pageable pageable = PageRequest.of(0, sizePage);
         model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
         log.info("count orders in page: {}", sizePage);
