@@ -5,10 +5,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import ru.savinov.pizzaservice.anotation.Auditing;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 
 @Component
+@Auditing
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
