@@ -1,7 +1,7 @@
 package ru.savinov.pizzaservice.controllers;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,11 +24,19 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("pizzaOrder")
-@AllArgsConstructor
+
 public class OrderController {
 
-    private OrderRepository orderRepo;
-    private PizzaPageProps pizzaPageProps;
+    private final OrderRepository orderRepo;
+    private final PizzaPageProps pizzaPageProps;
+
+    @Value("${pizza.show.page}")
+    private Integer showPageNum;
+
+    public OrderController(OrderRepository orderRepo, PizzaPageProps pizzaPageProps) {
+        this.orderRepo = orderRepo;
+        this.pizzaPageProps = pizzaPageProps;
+    }
 
     @GetMapping("/current")
     public String orderForm() {
@@ -53,7 +61,7 @@ public class OrderController {
     @GetMapping
     public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
         int sizePage = pizzaPageProps.getSizePage();
-        Pageable pageable = PageRequest.of(0, sizePage);
+        Pageable pageable = PageRequest.of(showPageNum, sizePage);
         model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
         log.info("count orders in page: {}", sizePage);
         return "orderList";

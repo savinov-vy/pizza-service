@@ -13,3 +13,5 @@ spring:
 pizza:
   orders:
     sizePage: 2
+  show:
+    page: 0
