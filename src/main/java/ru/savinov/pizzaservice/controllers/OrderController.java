@@ -29,13 +29,14 @@ public class OrderController {
 
     private final OrderRepository orderRepo;
     private final PizzaPageProps pizzaPageProps;
+    private final Integer showPageNum;
 
-    @Value("${pizza.show.page}")
-    private Integer showPageNum;
-
-    public OrderController(OrderRepository orderRepo, PizzaPageProps pizzaPageProps) {
+    public OrderController(@Value("${pizza.show.page}") Integer showPageNum,
+                           OrderRepository orderRepo,
+                           PizzaPageProps pizzaPageProps) {
         this.orderRepo = orderRepo;
         this.pizzaPageProps = pizzaPageProps;
+        this.showPageNum = showPageNum;
     }
 
     @GetMapping("/current")
