@@ -1,8 +1,10 @@
 package ru.savinov.pizzaservice.config;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
+    @Scope(BeanDefinition.SCOPE_SINGLETON)
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
