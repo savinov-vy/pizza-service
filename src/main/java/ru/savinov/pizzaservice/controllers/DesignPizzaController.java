@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.savinov.pizzaservice.entities.Ingredient;
 import ru.savinov.pizzaservice.entities.Pizza;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
-import ru.savinov.pizzaservice.repositories.IngredientRepository;
+import ru.savinov.pizzaservice.services.IngredientService;
 
 import javax.validation.Valid;
 
@@ -31,14 +31,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class DesignPizzaController {
 
-    private final IngredientRepository ingredientRepo;
+    private final IngredientService ingredientService;
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = (List<Ingredient>) ingredientRepo.findAll();
+        List<Ingredient> ingredients = ingredientService.findAll();
         Type[] types = Ingredient.Type.values();
         for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
+            model.addAttribute(type.toString().toLowerCase(), ingredientService.filterByType(ingredients, type));
         }
     }
 
@@ -69,13 +69,6 @@ public class DesignPizzaController {
         pizzaOrder.addPizza(pizza);
         log.info("Processing pizza: {}", pizza);
         return "redirect:/orders/current";
-    }
-
-    private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
-        return ingredients
-                .stream()
-                .filter(ingredient -> ingredient.getType().equals(type))
-                .collect(Collectors.toList());
     }
 
 }
