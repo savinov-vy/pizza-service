@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.savinov.pizzaservice.controllers.dto.RegistrationFormDto;
-import ru.savinov.pizzaservice.repositories.UserRepository;
+import ru.savinov.pizzaservice.services.UserService;
 
 @Controller
 @RequestMapping("/register")
 @AllArgsConstructor
 public class RegistrationController {
 
-    private UserRepository userRepo;
-    private PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public String registerForm() {
@@ -24,7 +24,7 @@ public class RegistrationController {
 
     @PostMapping
     public String processRegistration(RegistrationFormDto form) {
-        userRepo.save(form.toUser(passwordEncoder));
+        userService.createNewUser(form.toUser(passwordEncoder));
         return "redirect:/login";
     }
 

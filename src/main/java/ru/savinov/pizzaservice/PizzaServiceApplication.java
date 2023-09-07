@@ -21,7 +21,7 @@ public class PizzaServiceApplication {
     public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(PizzaServiceApplication.class, args);
 		OrderController orderController = context.getBean("orderController", OrderController.class);
-		System.out.println(orderController);
+		System.out.println("get bean from context: " + orderController);
 	}
 
     @Bean

@@ -24,7 +24,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("pizzaOrder")
-
 public class OrderController {
 
     private final OrderRepository orderRepo;
