@@ -12,4 +12,13 @@ spring:
 
 pizza:
   orders:
-    sizePage: 3
+    sizePage: 2
+  show:
+    page: 0
+
+logging:
+  level:
+    root: info
+  file:
+    name: pizza-service.log
+    path: /

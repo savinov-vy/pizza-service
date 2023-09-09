@@ -1,5 +1,6 @@
 package ru.savinov.pizzaservice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,13 +16,14 @@ import ru.savinov.pizzaservice.repositories.PizzaRepository;
 import java.util.Arrays;
 import java.util.Date;
 
+@Slf4j
 @SpringBootApplication
 public class PizzaServiceApplication {
 
     public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(PizzaServiceApplication.class, args);
 		OrderController orderController = context.getBean("orderController", OrderController.class);
-		System.out.println("get bean from context: " + orderController);
+		log.info("get bean from context: " + orderController);
 	}
 
     @Bean
