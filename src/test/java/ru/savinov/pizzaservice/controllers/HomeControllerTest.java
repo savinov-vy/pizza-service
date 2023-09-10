@@ -1,56 +1,50 @@
 package ru.savinov.pizzaservice.controllers;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import ru.savinov.pizzaservice.config.PizzaPageProps;
-import ru.savinov.pizzaservice.repositories.IngredientRepository;
-import ru.savinov.pizzaservice.repositories.OrderRepository;
-import ru.savinov.pizzaservice.repositories.PizzaRepository;
-import ru.savinov.pizzaservice.repositories.UserRepository;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import java.util.concurrent.TimeUnit;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest
+
+@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HomeControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @LocalServerPort
+    private int port;
+    private static HtmlUnitDriver browser;
 
-    @MockBean
-    private IngredientRepository ingredientRepository;
-    @MockBean
-    PizzaPageProps pizzaPageProps;
-    @MockBean
-    PizzaRepository pizzaRepository;
-    @MockBean
-    UserRepository userRepository;
-    @MockBean
-    private OrderRepository orderRepository;
-    @MockBean
-    RegistrationController registrationController;
-    @MockBean
-    private PasswordEncoder passwordEncoder;
+    @BeforeAll
+    public static void setup() {
+        browser = new HtmlUnitDriver();
+
+        browser.manage().timeouts()
+                .implicitlyWait(10, TimeUnit.SECONDS);
+    }
+
+    @AfterAll
+    public static void teardown() {
+        browser.quit();
+    }
 
     @Test
-    @WithMockUser(username = "customUserName")
-    public void testHomePage() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("home"))
-                .andExpect(content().string(
-                        containsString("Welcome to...")));
+    public void testHomePage() {
+        String homePage = "http://localhost:" + port;
+        browser.get(homePage);
+
+        String titleText = browser.getTitle();
+        Assertions.assertEquals("Pizza enjoy", titleText);
+
+        String h1Text = browser.findElementByTagName("h1").getText();
+        Assertions.assertEquals("Welcome to...", h1Text);
+
+        String imgSrc = browser.findElementByTagName("img")
+                .getAttribute("src");
+        Assertions.assertEquals(homePage + "/images/PizzaEnjoy.png", imgSrc);
     }
 
 }

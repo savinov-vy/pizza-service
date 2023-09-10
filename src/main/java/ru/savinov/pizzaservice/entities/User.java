@@ -17,7 +17,7 @@ import java.util.Collection;
 
 @Entity
 @Data
-@RequiredArgsConstructor
+@RequiredArgsConstructor(staticName = "of")
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 public class User implements UserDetails {
 

@@ -17,7 +17,7 @@ public class RegistrationFormDto {
     private String phone;
 
     public User toUser(PasswordEncoder passwordEncoder) {
-        return new User(
+        return User.of(
                 username, passwordEncoder.encode(password),
                 fullname, street, city, state, zip, phone);
     }
