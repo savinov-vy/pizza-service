@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.savinov.pizzaservice.config.PizzaPageProps;
 import ru.savinov.pizzaservice.controllers.dto.PizzaDto;
 import ru.savinov.pizzaservice.entities.Pizza;
-import ru.savinov.pizzaservice.repositories.PizzaRepository;
+import ru.savinov.pizzaservice.services.PizzaService;
 
 import java.util.Optional;
 
@@ -27,25 +27,25 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://pizzaservice:8080")
 public class PizzaController {
 
-    private PizzaRepository pizzaRepo;
     private PizzaPageProps pizzaPageProps;
+    private PizzaService pizzaService;
 
     @GetMapping(params = "recent")
     public Iterable<Pizza> recentPizzas() {
         PageRequest page = PageRequest.of(0, pizzaPageProps.getSizePage(), Sort.by("createdAt").descending());
-        return pizzaRepo.findAll(page).getContent();
+        return pizzaService.findAll(page);
     }
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Pizza postPizza(@RequestBody PizzaDto dto) {
         Pizza pizza = Pizza.ofDto(dto);
-        return pizzaRepo.save(pizza);
+        return pizzaService.save(pizza);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Pizza> pizzaById(@PathVariable("id") Long id) {
-        Optional<Pizza> found = pizzaRepo.findById(id);
+        Optional<Pizza> found = pizzaService.findById(id);
         return found.map(pizza -> new ResponseEntity<>(pizza, HttpStatus.OK)).orElseGet(() ->
                 new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
