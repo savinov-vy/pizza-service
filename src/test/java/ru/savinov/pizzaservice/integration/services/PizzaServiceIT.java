@@ -1,11 +1,12 @@
-package ru.savinov.pizzaservice.integration;
+package ru.savinov.pizzaservice.integration.services;
 
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestConstructor;
 import ru.savinov.pizzaservice.entities.Ingredient;
 import ru.savinov.pizzaservice.entities.Pizza;
+import ru.savinov.pizzaservice.integration.annotation.IT;
 import ru.savinov.pizzaservice.repositories.IngredientRepository;
 import ru.savinov.pizzaservice.repositories.PizzaRepository;
 import ru.savinov.pizzaservice.services.PizzaService;
@@ -17,17 +18,16 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+@IT
+@RequiredArgsConstructor
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class PizzaServiceIT {
 
     private Pizza pizza;
 
-    @Autowired
-    PizzaService pizzaService;
-    @Autowired
-    IngredientRepository ingredientRepo;
-    @Autowired
-    PizzaRepository pizzaRepo;
+    private final PizzaService pizzaService;
+    private final IngredientRepository ingredientRepo;
+    private final PizzaRepository pizzaRepo;
 
     @BeforeEach
     void setUp() {
