@@ -23,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 @EqualsAndHashCode(exclude = "createdAt")
-public class Pizza {
+public class Pizza implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

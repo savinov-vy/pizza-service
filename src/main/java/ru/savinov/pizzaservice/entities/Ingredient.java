@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-public class Ingredient {
+public class Ingredient implements BaseEntity<String>{
 
     @Id
     private String id;

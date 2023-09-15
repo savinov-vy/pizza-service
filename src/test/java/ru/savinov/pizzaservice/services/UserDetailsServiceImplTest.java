@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.savinov.pizzaservice.entities.City;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 
@@ -21,13 +22,21 @@ class UserDetailsServiceImplTest {
     private UserRepository userRepo;
     @InjectMocks
     private UserDetailsServiceImpl subject;
-    private String username = "name_test";
+
     private UserDetails user;
 
     @BeforeEach
     void setUp() {
-        user = User.of("name_test", "12345", "fname", "street", "city",
-                "st", "zip", "46546");
+        user = User.builder()
+                .username("name_test")
+                .password("12345")
+                .fullname("fname")
+                .street("street")
+                .city(City.of("city"))
+                .state("st")
+                .zip("zip")
+                .phoneNumber("46546")
+                .build();
     }
 
     @Test
@@ -39,4 +48,5 @@ class UserDetailsServiceImplTest {
         assertTrue(nonNull(actualResult));
         assertEquals(user, actualResult);
     }
+
 }

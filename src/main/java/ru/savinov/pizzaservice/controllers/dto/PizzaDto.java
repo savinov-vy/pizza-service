@@ -1,5 +1,6 @@
 package ru.savinov.pizzaservice.controllers.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.savinov.pizzaservice.entities.Ingredient;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class PizzaDto {
 
     private Long id;

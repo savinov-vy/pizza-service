@@ -3,7 +3,6 @@ package ru.savinov.pizzaservice.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.persistence.CascadeType;
@@ -17,17 +16,15 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-public class PizzaOrder implements Serializable {
+public class PizzaOrder implements BaseEntity<Long> {
 
     private static final long serialVersionUID = -332167508885431556L;
 
