@@ -13,6 +13,9 @@ spring:
   profiles:
     active:
 
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
 pizza:
   orders:
     sizePage: 2
