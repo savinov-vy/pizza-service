@@ -31,7 +31,7 @@ public class City implements BaseEntity<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, name = "name")
     private String name;
 
     @ElementCollection

@@ -11,7 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -20,13 +23,14 @@ import java.util.List;
 @Data
 @Entity
 @Builder
+@Table(name = "pizza")
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 @EqualsAndHashCode(exclude = "createdAt")
 public class Pizza implements BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -36,6 +40,10 @@ public class Pizza implements BaseEntity<Long> {
     @ManyToMany
     @Size(min = 1, message = "You must choose at least 1 ingredient")
     private List<Ingredient> ingredients;
+
+    @ManyToOne
+    @JoinColumn(name = "pizza_order_id")
+    PizzaOrder pizzaOrder;
 
     private Date createdAt = new Date();
 

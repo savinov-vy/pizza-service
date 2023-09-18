@@ -10,27 +10,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+@Entity
 @Data
 @Builder
-@Entity
-@Table(name = "payment")
-@NoArgsConstructor
+@Table(name = "ingredient_pizza")
 @AllArgsConstructor
-public class Payment implements BaseEntity<Long> {
+@NoArgsConstructor
+public class IngredientToPizza {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "amount")
-    private Integer amount;
+    @Column(name = "ingredient_id")
+    private String ingredientId;
 
-    @ManyToOne
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
+    @Column(name = "pizza_id")
+    private Integer pizzaId;
 
 }
