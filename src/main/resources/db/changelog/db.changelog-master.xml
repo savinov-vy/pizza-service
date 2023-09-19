@@ -6,4 +6,9 @@
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
 http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
     <include file="001_create_table_chat.xml" relativeToChangelogFile="true"/>
+    <include file="002_create_table_city.xml" relativeToChangelogFile="true"/>
+    <include file="003_create_table_ingredient.xml" relativeToChangelogFile="true"/>
+    <include file="004_create_table_ingredient_to_pizza.xml" relativeToChangelogFile="true"/>
+    <include file="005_create_table_payment.xml" relativeToChangelogFile="true"/>
+    <include file="006_create_table_pizza.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
