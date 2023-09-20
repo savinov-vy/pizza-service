@@ -33,9 +33,6 @@ class UserDetailsServiceImplTest {
                 .fullname("fname")
                 .street("street")
                 .city(City.of("city"))
-                .state("st")
-                .zip("zip")
-                .phoneNumber("46546")
                 .build();
     }
 

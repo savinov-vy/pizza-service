@@ -22,11 +22,11 @@ import java.util.List;
 @Table(name = "chat")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Chat implements BaseEntity<Integer> {
+public class Chat implements BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String name;

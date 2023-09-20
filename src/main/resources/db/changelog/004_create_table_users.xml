@@ -6,18 +6,23 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
-    <changeSet id="create table pizza" author="savinov_vy">
+    <changeSet id="create table users" author="savinov_vy">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="pizza"/>
+                <tableExists tableName="users"/>
             </not>
         </preConditions>
         <sql>
-            CREATE TABLE IF NOT EXISTS pizza (
+            CREATE TABLE IF NOT EXISTS users (
                 id BIGSERIAL PRIMARY KEY,
-                name INT NOT NULL,
-                created_at TIMESTAMP NOT NULL,
-                order_id BIGINT REFERENCES pizza_order(id)
+                username VARCHAR(32) NOT NULL UNIQUE,
+                password VARCHAR(64) NOT NULL UNIQUE,
+                birth_date timestamp,
+                fullname VARCHAR(64),
+                street VARCHAR(64),
+                city_id INT REFERENCES city(id),
+                role VARCHAR(32),
+                placed_at TIMESTAMP
                 );
         </sql>
     </changeSet>

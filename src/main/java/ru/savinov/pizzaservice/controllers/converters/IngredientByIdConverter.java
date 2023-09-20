@@ -8,12 +8,12 @@ import ru.savinov.pizzaservice.repositories.IngredientRepository;
 
 @Component
 @AllArgsConstructor
-public class IngredientByIdConverter implements Converter<String, Ingredient> {
+public class IngredientByIdConverter implements Converter<Integer, Ingredient> {
 
     private final IngredientRepository ingredientRepo;
 
     @Override
-    public Ingredient convert(String id) {
+    public Ingredient convert(Integer id) {
         return ingredientRepo.findById(id).orElse(null);
     }
 

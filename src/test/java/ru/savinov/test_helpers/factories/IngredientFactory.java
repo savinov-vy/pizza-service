@@ -9,9 +9,9 @@ public class IngredientFactory {
 
     public static List<Ingredient> of() {
         return Arrays.asList(
-                Ingredient.of("FLTO", "Flour Tortilla", Ingredient.Type.CHEESE),
-                Ingredient.of("CHED", "Cheddar", Ingredient.Type.CHEESE),
-                Ingredient.of("SLSA", "Salsa", Ingredient.Type.TOMATO)
+                Ingredient.of(1, "Flour Tortilla", Ingredient.Type.CHEESE),
+                Ingredient.of(2, "Cheddar", Ingredient.Type.CHEESE),
+                Ingredient.of(3, "Salsa", Ingredient.Type.TOMATO)
         );
     }
 

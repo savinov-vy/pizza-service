@@ -26,8 +26,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@Entity
 @Builder
+@Entity
 @Table(name = "users")
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
@@ -37,26 +37,24 @@ public class User implements UserDetails, BaseEntity<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, name = "username")
     private String username;
 
-    private LocalDate birthDate;
-
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+
+    @Column(name = "fullname")
     private String fullname;
 
+    @Column(name = "street")
     private String street;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     private City city;
-
-    private String state;
-
-    private String zip;
-
-    private String phoneNumber;
 
     @Builder.Default
     @OneToMany(mappedBy = "user")

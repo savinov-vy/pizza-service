@@ -18,9 +18,9 @@ class IngredientByIdConverterTest {
     @BeforeEach
     public void setup() {
         IngredientRepository ingredientRepo = mock(IngredientRepository.class);
-        when(ingredientRepo.findById("AAAA"))
-                .thenReturn(Optional.of(Ingredient.of("AAAA", "TEST INGREDIENT", Ingredient.Type.CHEESE)));
-        when(ingredientRepo.findById("ZZZZ"))
+        when(ingredientRepo.findById(1))
+                .thenReturn(Optional.of(Ingredient.of(1, "TEST INGREDIENT", Ingredient.Type.CHEESE)));
+        when(ingredientRepo.findById(9999999))
                 .thenReturn(Optional.empty());
 
         this.converter = new IngredientByIdConverter(ingredientRepo);
@@ -28,13 +28,13 @@ class IngredientByIdConverterTest {
 
     @Test
     public void shouldReturnValueWhenPresent() {
-        assertThat(converter.convert("AAAA"))
-                .isEqualTo(Ingredient.of("AAAA", "TEST INGREDIENT", Ingredient.Type.CHEESE));
+        assertThat(converter.convert(1))
+                .isEqualTo(Ingredient.of(1, "TEST INGREDIENT", Ingredient.Type.CHEESE));
     }
 
     @Test
     public void shouldReturnNullWhenMissing() {
-        assertThat(converter.convert("ZZZZ")).isNull();
+        assertThat(converter.convert(9999999)).isNull();
     }
 
 }

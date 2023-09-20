@@ -14,9 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
 @Data
 @Builder
+@Entity
 @Table(name = "ingredient_to_pizza")
 @AllArgsConstructor
 @NoArgsConstructor

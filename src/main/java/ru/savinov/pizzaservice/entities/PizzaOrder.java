@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -38,23 +39,12 @@ public class PizzaOrder implements BaseEntity<Long> {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @NotBlank(message = "Delivery name is required")
-    private String deliveryName;
-
     @NotBlank(message = "Street is required")
+    @Size(min = 2, max = 32, message = "Name must be 2 characters long")
     private String deliveryStreet;
-
-    @NotBlank(message = "City is required")
-    private String deliveryCity;
-
-    @NotBlank(message = "State is required")
-    @Size(min = 2, max = 2, message = "Name must be 2 characters long")
-    private String deliveryState;
-
-    @NotBlank(message = "Zip code is required")
-    private String deliveryZip;
 
     @CreditCardNumber(message = "Not valid credit card number")
     private String ccNumber;

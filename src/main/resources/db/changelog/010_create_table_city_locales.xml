@@ -6,18 +6,18 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
-    <changeSet id="create table ingredient_to_pizza" author="savinov_vy">
+    <changeSet id="create table city_locales" author="savinov_vy">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="ingredient_to_pizza"/>
+                <tableExists tableName="city_locales"/>
             </not>
         </preConditions>
         <sql>
-            CREATE TABLE IF NOT EXISTS ingredient_to_pizza (
-                id BIGSERIAL PRIMARY KEY,
-                ingredient_id VARCHAR(16) NOT NULL,
-                pizza_id bigint NOT NULL,
-                UNIQUE (ingredient_id, pizza_id)
+            CREATE TABLE IF NOT EXISTS city_locales (
+                city_id INT REFERENCES city(id),
+                lang VARCHAR(2),
+                description VARCHAR(255) NOT NULL,
+                PRIMARY KEY(city_id, lang)
                 );
         </sql>
     </changeSet>

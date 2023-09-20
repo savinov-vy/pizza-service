@@ -12,17 +12,9 @@ import java.util.List;
 
 public interface OrderRepository extends CrudRepository<PizzaOrder, Long> {
 
-    List<PizzaOrder> findByDeliveryZip(String deliveryZip);
-
-    List<PizzaOrder> readOrdersByDeliveryZipAndPlacedAtBetween(String deliveryZip, Date startDate, Date endDate);
-
-    List<PizzaOrder> findByDeliveryStreetAndDeliveryCityIgnoreCase(String deliveryStreet, String deliveryCity);
-
-    List<PizzaOrder> findByDeliveryCityOrderByDeliveryName(String city);
-
     List<PizzaOrder> findByUserOrderByPlacedAtDesc(User user, Pageable pageable);
 
-    @Query("select o from PizzaOrder o where o.deliveryCity = :city")
-    List<PizzaOrder> readOrdersDeliveredInSeattle(@Param("city") String city);
+    @Query("select o from PizzaOrder o where o.deliveryStreet = :deliveryStreet")
+    List<PizzaOrder> readOrdersByDeliveryStreet(@Param("deliveryStreet") String deliveryStreet);
 
 }

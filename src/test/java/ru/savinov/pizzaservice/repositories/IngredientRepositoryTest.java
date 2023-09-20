@@ -22,16 +22,16 @@ class IngredientRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        ingredientRepo.save(Ingredient.of("FLTO", "Flour Tortilla", Ingredient.Type.CHEESE));
+        ingredientRepo.save(Ingredient.of(1, "Flour Tortilla", Ingredient.Type.CHEESE));
     }
 
     @Test
     public void findById() {
-        Optional<Ingredient> flto = ingredientRepo.findById("FLTO");
+        Optional<Ingredient> flto = ingredientRepo.findById(1);
         assertThat(flto.isPresent()).isTrue();
-        assertThat(flto.get()).isEqualTo(Ingredient.of("FLTO", "Flour Tortilla", Ingredient.Type.CHEESE));
+        assertThat(flto.get()).isEqualTo(Ingredient.of(1, "Flour Tortilla", Ingredient.Type.CHEESE));
 
-        Optional<Ingredient> xxxx = ingredientRepo.findById("XXXX");
+        Optional<Ingredient> xxxx = ingredientRepo.findById(99999999);
         assertThat(xxxx.isEmpty()).isTrue();
     }
 

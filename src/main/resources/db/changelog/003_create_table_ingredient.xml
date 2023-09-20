@@ -14,9 +14,9 @@
         </preConditions>
         <sql>
             CREATE TABLE IF NOT EXISTS ingredient (
-                id VARCHAR(16) PRIMARY KEY,
+                id SERIAL PRIMARY KEY,
                 name VARCHAR(32) NOT NULL UNIQUE,
-                type VARCHAR(16) NOT NULL UNIQUE
+                type VARCHAR(32) NOT NULL UNIQUE
                 );
         </sql>
     </changeSet>
