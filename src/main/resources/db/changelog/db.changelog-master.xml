@@ -15,4 +15,5 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
     <include file="008_create_table_payment.xml" relativeToChangelogFile="true"/>
     <include file="009_create_table_users_chat.xml" relativeToChangelogFile="true"/>
     <include file="010_create_table_city_locales.xml" relativeToChangelogFile="true"/>
+    <include file="011_fill_default_values.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

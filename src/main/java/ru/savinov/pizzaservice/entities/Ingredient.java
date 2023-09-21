@@ -18,11 +18,10 @@ import javax.persistence.Table;
 @Table(name = "ingredient")
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-public class Ingredient implements BaseEntity<Integer>{
+public class Ingredient implements BaseEntity<String>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     @Column(name = "name")
     private String name;

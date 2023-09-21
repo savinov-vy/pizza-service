@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.savinov.pizzaservice.entities.City;
+import ru.savinov.pizzaservice.entities.Role;
 import ru.savinov.pizzaservice.entities.User;
 
 @Data
@@ -20,7 +21,9 @@ public class RegistrationFormDto {
         return User.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
+                .fullname(fullname)
                 .street(street)
+                .role(Role.USER)
                 .city(City.of(city))
                 .build();
     }

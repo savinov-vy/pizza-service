@@ -45,9 +45,6 @@ public class User implements UserDetails, BaseEntity<Long> {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-
     @Column(name = "fullname")
     private String fullname;
 

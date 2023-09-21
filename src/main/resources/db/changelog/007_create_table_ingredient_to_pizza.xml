@@ -15,7 +15,7 @@
         <sql>
             CREATE TABLE IF NOT EXISTS ingredient_to_pizza (
                 id BIGSERIAL PRIMARY KEY,
-                ingredient_id INT NOT NULL REFERENCES ingredient(id),
+                ingredient_id VARCHAR(16) NOT NULL REFERENCES ingredient(id),
                 pizza_id BIGINT NOT NULL REFERENCES pizza(id),
                 UNIQUE (ingredient_id, pizza_id)
                 );

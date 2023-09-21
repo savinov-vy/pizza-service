@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="fill default values" author="savinov_vy">
+        <sql>
+            INSERT INTO ingredient (id, name, type)
+            VALUES ('FLTO', 'Flour Tortilla', 'CHEESE'),
+                   ('CHED', 'Cheddar', 'CHEESE'),
+                   ('COTO', 'Corn Tortilla', 'SAUSAGE'),
+                   ('GRBF', 'Ground Beef', 'THICK_CRUST'),
+                   ('CARN', 'Carnitas', 'THIN_CRUST'),
+                   ('LETC', 'Lettuce', 'TOMATO'),
+                   ('JACK', 'Monterrey Jack', 'VEGGIES'),
+                   ('SLSA', 'Salsa', 'TOMATO');
+
+            INSERT INTO city (id, name)
+            VALUES (DEFAULT, 'IRKUTSK'),
+                   (DEFAULT, 'BRATSK'),
+                   (DEFAULT, 'NOVOSIBIRSK'),
+                   (DEFAULT, 'KRASNOYARSK'),
+                   (DEFAULT, 'ANGARSK'),
+                   (DEFAULT, 'MOSCOW'),
+                   (DEFAULT, 'ANAPA'),
+                   (DEFAULT, 'SOCHI')
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
