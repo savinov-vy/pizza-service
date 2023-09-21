@@ -43,7 +43,7 @@ public class PizzaOrder implements BaseEntity<Long> {
     private User user;
 
     @NotBlank(message = "Street is required")
-    @Size(min = 2, max = 32, message = "Name must be 2 characters long")
+    @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long")
     private String deliveryStreet;
 
     @CreditCardNumber(message = "Not valid credit card number")

@@ -38,7 +38,7 @@ public class Pizza implements BaseEntity<Long> {
     private Long id;
 
     @NotNull
-    @Size(min = 5, message = "Name must be at least 5 characters long")
+    @Size(min = 2, max = 64, message = "Name must be between 2 and 5 characters long")
     @Column(name = "name")
     private String name;
 
