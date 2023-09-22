@@ -1,10 +1,10 @@
 package ru.savinov.pizzaservice.integration.repositories;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.entities.Ingredient;
 import ru.savinov.pizzaservice.repositories.IngredientRepository;
 
@@ -18,19 +18,15 @@ class IngredientRepositoryTest {
     @Autowired
     IngredientRepository ingredientRepo;
 
-    @Autowired
-    JdbcTemplate jdbc;
-
-    @BeforeEach
-    void setUp() {
-        ingredientRepo.save(Ingredient.of("AAAA", "Flour Tortilla", Ingredient.Type.CHEESE));
-    }
-
     @Test
+    @Transactional
+    @Rollback
     public void findById() {
-        Optional<Ingredient> flto = ingredientRepo.findById("AAAA");
+        ingredientRepo.save(Ingredient.of("TEST", "Flour Tortilla", Ingredient.Type.CHEESE));
+
+        Optional<Ingredient> flto = ingredientRepo.findById("TEST");
         assertThat(flto.isPresent()).isTrue();
-        assertThat(flto.get()).isEqualTo(Ingredient.of("AAAA", "Flour Tortilla", Ingredient.Type.CHEESE));
+        assertThat(flto.get()).isEqualTo(Ingredient.of("TEST", "Flour Tortilla", Ingredient.Type.CHEESE));
 
         Optional<Ingredient> xxxx = ingredientRepo.findById("ZZZZ");
         assertThat(xxxx.isEmpty()).isTrue();

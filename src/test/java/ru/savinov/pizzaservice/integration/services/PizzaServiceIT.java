@@ -1,8 +1,8 @@
 package ru.savinov.pizzaservice.integration.services;
 
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.entities.Pizza;
 import ru.savinov.pizzaservice.integration.annotation.IT;
@@ -24,16 +24,14 @@ public class PizzaServiceIT {
     private final PizzaService pizzaService;
     private final PizzaRepository pizzaRepo;
 
-    @BeforeEach
-    void setUp() {
-        pizza = PizzaFactory.of(1L);
-        pizzaRepo.save(pizza);
-    }
-
     @Test
     @Transactional
+    @Rollback
     void findById() {
+        pizza = PizzaFactory.of("PizzaNameTest");
+        pizzaRepo.save(pizza);
         var pizza = pizzaRepo.findByName("PizzaNameTest");
+
         Optional<Pizza> actualResult = pizzaService.findById(pizza.getId());
         assertTrue(actualResult.isPresent());
         actualResult.ifPresent(actual -> assertEquals(pizza, actual));

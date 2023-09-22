@@ -6,10 +6,9 @@ import java.util.Date;
 
 public class PizzaFactory {
 
-    public static Pizza of(Long id) {
+    public static Pizza of(String namePizza) {
         return Pizza.builder()
-                .id(id)
-                .name("PizzaNameTest")
+                .name(namePizza)
                 .ingredients(IngredientFactory.of())
                 .createdAt(new Date())
                 .build();
