@@ -29,8 +29,6 @@ public class PizzaService {
     @Transactional(readOnly = true)
     public Optional<Pizza> findById(Long id) {
         Optional<Pizza> optional = pizzaRepo.findById(id);
-        Pizza byId = pizzaRepo.findById(id).orElse(null);
-        log.info("load pizza with name: {}, and ingredients: {}", byId.getName(), byId.getIngredients());
         return optional;
     }
 

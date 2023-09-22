@@ -1,4 +1,4 @@
-package ru.savinov.pizzaservice.repositories;
+package ru.savinov.pizzaservice.integration.repositories;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.savinov.pizzaservice.entities.Ingredient;
+import ru.savinov.pizzaservice.repositories.IngredientRepository;
 
 import java.util.Optional;
 

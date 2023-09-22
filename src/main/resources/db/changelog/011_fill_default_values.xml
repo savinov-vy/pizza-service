@@ -29,7 +29,25 @@
                    (DEFAULT, 'ANGARSK'),
                    (DEFAULT, 'MOSCOW'),
                    (DEFAULT, 'ANAPA'),
-                   (DEFAULT, 'SOCHI')
+                   (DEFAULT, 'SOCHI');
+
+            INSERT INTO city_locales(city_id, lang, description)
+            VALUES ((SELECT id FROM city WHERE name = 'IRKUTSK'), 'en', 'IRKUTSK description'),
+                   ((SELECT id FROM city WHERE name = 'IRKUTSK'), 'ru', 'Иркутск описание'),
+                   ((SELECT id FROM city WHERE name = 'BRATSK'), 'en', 'BRATSK description'),
+                   ((SELECT id FROM city WHERE name = 'BRATSK'), 'ru', 'Братск описание'),
+                   ((SELECT id FROM city WHERE name = 'NOVOSIBIRSK'), 'en', 'NOVOSIBIRSK description'),
+                   ((SELECT id FROM city WHERE name = 'NOVOSIBIRSK'), 'ru', 'Новосибирск описание'),
+                   ((SELECT id FROM city WHERE name = 'KRASNOYARSK'), 'en', 'KRASNOYARSK description'),
+                   ((SELECT id FROM city WHERE name = 'KRASNOYARSK'), 'ru', 'Красноярск описание'),
+                   ((SELECT id FROM city WHERE name = 'ANGARSK'), 'en', 'ANGARSK description'),
+                   ((SELECT id FROM city WHERE name = 'ANGARSK'), 'ru', 'Ангарск описание'),
+                   ((SELECT id FROM city WHERE name = 'MOSCOW'), 'en', 'MOSCOW description'),
+                   ((SELECT id FROM city WHERE name = 'MOSCOW'), 'ru', 'Москва описание'),
+                   ((SELECT id FROM city WHERE name = 'ANAPA'), 'en', 'ANAPA description'),
+                   ((SELECT id FROM city WHERE name = 'ANAPA'), 'ru', 'Анапа описание'),
+                   ((SELECT id FROM city WHERE name = 'SOCHI'), 'en', 'SOCHI description'),
+                   ((SELECT id FROM city WHERE name = 'SOCHI'), 'ru', 'Сочи описание');
         </sql>
     </changeSet>
 
