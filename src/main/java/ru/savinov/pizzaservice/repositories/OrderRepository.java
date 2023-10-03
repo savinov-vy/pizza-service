@@ -1,16 +1,15 @@
 package ru.savinov.pizzaservice.repositories;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
 import ru.savinov.pizzaservice.entities.User;
 
-import java.util.Date;
 import java.util.List;
 
-public interface OrderRepository extends CrudRepository<PizzaOrder, Long> {
+public interface OrderRepository extends JpaRepository<PizzaOrder, Long> {
 
     List<PizzaOrder> findByUserOrderByPlacedAtDesc(User user, Pageable pageable);
 

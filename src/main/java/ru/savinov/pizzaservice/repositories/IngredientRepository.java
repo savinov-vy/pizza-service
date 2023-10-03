@@ -1,7 +1,7 @@
 package ru.savinov.pizzaservice.repositories;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.savinov.pizzaservice.entities.Ingredient;
 
-public interface IngredientRepository extends CrudRepository<Ingredient, String> {
+public interface IngredientRepository extends JpaRepository<Ingredient, String> {
 }
