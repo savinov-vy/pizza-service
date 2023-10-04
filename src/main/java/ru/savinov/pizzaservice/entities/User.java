@@ -21,7 +21,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,7 +31,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @AllArgsConstructor(staticName = "of")
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@NoArgsConstructor
 public class User implements UserDetails, BaseEntity<Long> {
 
     @Id
