@@ -2,15 +2,19 @@ package ru.savinov.pizzaservice.integration;
 
 import lombok.RequiredArgsConstructor;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.entities.Role;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.integration.annotation.IT;
 import ru.savinov.pizzaservice.repositories.UserRepository;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertSame;
+
 @IT
 @RequiredArgsConstructor
 class UserRepositoryTest {
@@ -20,7 +24,7 @@ class UserRepositoryTest {
     @Test
     void checkQueries() {
         var users = userRepository.findAllBy("ов", "admin");
-        ListAssert<User> userListAssert = Assertions.assertThat(users);
+        ListAssert<User> userListAssert = assertThat(users);
         userListAssert.hasSize(1);
     }
 
@@ -34,6 +38,23 @@ class UserRepositoryTest {
 
         var theSameIvan = userRepository.getById(4L);
         assertSame(Role.ADMIN, theSameIvan.getRole());
+    }
+
+    @Test
+    void checkPageable() {
+        var pageable = PageRequest.of(1, 2, Sort.by("id"));
+        var result = userRepository.findAllBy(pageable);
+        assertThat(result).hasSize(2);
+    }
+
+    @Test
+    void checkSort() {
+        var sortBy = Sort.sort(User.class);
+        var sort = sortBy.by(User::getFullname)
+                .and(sortBy.by(User::getUsername));
+
+        var allUsers = userRepository.findTop3ByFullnameContaining("ов", sort);
+        assertThat(allUsers).hasSize(3);
     }
 
 }
