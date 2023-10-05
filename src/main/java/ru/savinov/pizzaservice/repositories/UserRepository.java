@@ -30,6 +30,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findTop3ByFullnameContaining(String fullname, Sort sort);
 
+    @Query(value = "select u from User u",
+            countQuery = "select count(distinct u.fullname) from User u")
     List<User> findAllBy(Pageable pageable);
 
 }
