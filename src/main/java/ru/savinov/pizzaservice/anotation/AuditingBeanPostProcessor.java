@@ -17,7 +17,7 @@ public class AuditingBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if (bean.getClass().isAnnotationPresent(Auditing.class)) {
+        if (bean.getClass().isAnnotationPresent(AuditingExecuteMethod.class)) {
             auditBeans.put(beanName, bean.getClass());
         }
         return bean;
@@ -42,4 +42,5 @@ public class AuditingBeanPostProcessor implements BeanPostProcessor {
         }
         return bean;
     }
+
 }
