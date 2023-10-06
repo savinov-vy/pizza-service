@@ -32,7 +32,7 @@ import java.util.List;
 @Table(name = "users")
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
-public class User implements UserDetails, BaseEntity<Long> {
+public class User extends AuditingEntity<Long> implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
