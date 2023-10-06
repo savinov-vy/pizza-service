@@ -7,15 +7,30 @@ import ru.savinov.pizzaservice.entities.City;
 import ru.savinov.pizzaservice.entities.Role;
 import ru.savinov.pizzaservice.entities.User;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @Data
 @AllArgsConstructor
 public class RegistrationFormDto {
 
+    @Size(min = 1, message = "Enter your login")
     private String username;
+
+    @Size(min = 1, message = "Enter your password")
     private String password;
+
+    @Size(min = 1, message = "retry your password")
+    private String confirmPassword;
+
+    @Size(min = 1, message = "Enter your fullname")
     private String fullname;
+
+    @Size(min = 1, message = "Enter your street")
     private String street;
-    private String city;
+
+    @NotNull(message = "City must be selected")
+    private Integer cityId;
 
     public User toUser(PasswordEncoder passwordEncoder) {
         return User.builder()
@@ -24,7 +39,7 @@ public class RegistrationFormDto {
                 .fullname(fullname)
                 .street(street)
                 .role(Role.USER)
-                .city(City.of(city))
+                .city(City.of(cityId))
                 .build();
     }
 

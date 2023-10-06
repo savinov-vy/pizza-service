@@ -1,6 +1,6 @@
 package ru.savinov.pizzaservice.services;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.entities.Ingredient;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class IngredientService {
 
     private final IngredientRepository ingredientRepo;

@@ -32,7 +32,7 @@ class UserDetailsServiceImplTest {
                 .password("12345")
                 .fullname("fname")
                 .street("street")
-                .city(City.of("city"))
+                .city(City.of(1))
                 .build();
     }
 

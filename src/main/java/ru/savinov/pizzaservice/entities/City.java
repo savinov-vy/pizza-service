@@ -40,9 +40,9 @@ public class City implements BaseEntity<Integer> {
     @Column(name = "description")
     private Map<String, String> locales = new HashMap<>();
 
-    public static City of(String name) {
+    public static City of(Integer id) {
         return City.builder()
-                .name(name)
+                .id(id)
                 .build();
     }
 
