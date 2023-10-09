@@ -6,9 +6,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import ru.savinov.pizzaservice.controllers.dto.PizzaDto;
+import ru.savinov.pizzaservice.status.PizzaStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,6 +43,10 @@ public class Pizza extends AuditingEntity<Long> {
     @Size(min = 2, max = 64, message = "Name must be between 2 and 5 characters long")
     @Column(name = "name")
     private String name;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private PizzaStatus status;
 
     @Size(min = 1, message = "You must choose at least 1 ingredient")
     @ManyToMany(fetch = FetchType.LAZY)

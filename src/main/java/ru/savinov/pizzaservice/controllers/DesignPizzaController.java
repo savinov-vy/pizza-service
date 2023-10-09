@@ -15,6 +15,7 @@ import ru.savinov.pizzaservice.entities.Ingredient;
 import ru.savinov.pizzaservice.entities.Pizza;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
 import ru.savinov.pizzaservice.services.IngredientService;
+import ru.savinov.pizzaservice.services.PizzaService;
 
 import javax.validation.Valid;
 
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 public class DesignPizzaController {
 
     private final IngredientService ingredientService;
+    private final PizzaService pizzaService;
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
@@ -58,7 +60,7 @@ public class DesignPizzaController {
     }
 
     @PostMapping
-    public String processPizza(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder, Model model) {
+    public String createPizza(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder, Model model) {
         if (errors.hasErrors()) {
             List<String> allErrors = errors.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -66,6 +68,7 @@ public class DesignPizzaController {
             model.addAttribute("allErrors", allErrors);
             return "design";
         }
+        pizzaService.saveNew(pizza);
         pizzaOrder.addPizza(pizza);
         log.info("Processing pizza: {}", pizza);
         return "redirect:/orders/current";

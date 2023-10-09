@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.entities.Pizza;
 import ru.savinov.pizzaservice.repositories.PizzaRepository;
+import ru.savinov.pizzaservice.status.PizzaStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,11 @@ public class PizzaService {
 
     public Pizza save(Pizza pizza) {
         return pizzaRepo.save(pizza);
+    }
+
+    public void saveNew(Pizza pizza) {
+        pizza.setStatus(PizzaStatus.NEW);
+        pizzaRepo.save(pizza);
     }
 
     @Transactional(readOnly = true)

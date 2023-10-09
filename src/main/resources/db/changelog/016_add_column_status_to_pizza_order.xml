@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="add column status to pizza_order table" author="savinov_vy">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists columnName="status" tableName="pizza_order"/></not>
+        </preConditions>
+        <sql>
+            ALTER TABLE pizza_order
+            ADD COLUMN status VARCHAR(32);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
