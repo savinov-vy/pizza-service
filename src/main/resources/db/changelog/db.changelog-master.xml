@@ -20,5 +20,4 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
     <include file="013_add_columns_audit_to_pizza_order.xml" relativeToChangelogFile="true"/>
     <include file="014_add_columns_audit_to_pizza.xml" relativeToChangelogFile="true"/>
     <include file="015_add_column_status_pizza.xml" relativeToChangelogFile="true"/>
-    <include file="016_add_column_status_to_pizza_order.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

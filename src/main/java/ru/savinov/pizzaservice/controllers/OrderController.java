@@ -1,7 +1,7 @@
 package ru.savinov.pizzaservice.controllers;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import ru.savinov.pizzaservice.config.PizzaPageProps;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
 import ru.savinov.pizzaservice.entities.User;
-import ru.savinov.pizzaservice.repositories.OrderRepository;
+import ru.savinov.pizzaservice.services.PizzaOrderService;
 
 import javax.validation.Valid;
 
@@ -24,19 +24,11 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/orders")
 @SessionAttributes("pizzaOrder")
+@RequiredArgsConstructor
 public class OrderController {
 
-    private final OrderRepository orderRepo;
     private final PizzaPageProps pizzaPageProps;
-    private final Integer showPageNum;
-
-    public OrderController(@Value("${pizza.show.page}") Integer showPageNum,
-                           OrderRepository orderRepo,
-                           PizzaPageProps pizzaPageProps) {
-        this.orderRepo = orderRepo;
-        this.pizzaPageProps = pizzaPageProps;
-        this.showPageNum = showPageNum;
-    }
+    private final PizzaOrderService orderService;
 
     @GetMapping("/current")
     public String orderForm() {
@@ -51,9 +43,7 @@ public class OrderController {
         if (errors.hasErrors()) {
             return "orderForm";
         }
-        log.info(user.getFullname());
-        order.setUser(user);
-        orderRepo.save(order);
+        orderService.prepareAndCreate(order, user);
         sessionStatus.setComplete();
         return "redirect:/";
     }
@@ -61,8 +51,8 @@ public class OrderController {
     @GetMapping
     public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
         int sizePage = pizzaPageProps.getSizePage();
-        Pageable pageable = PageRequest.of(showPageNum, sizePage);
-        model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
+        Pageable pageable = PageRequest.of(0, sizePage);
+        model.addAttribute("orders", orderService.findBy(user, pageable));
         log.info("count orders in page: {}", sizePage);
         return "orderList";
     }

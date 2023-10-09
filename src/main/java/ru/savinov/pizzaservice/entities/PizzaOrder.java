@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +42,6 @@ public class PizzaOrder extends AuditingEntity<Long> {
     private User user;
 
     @NotBlank(message = "Street is required")
-    @Size(min = 2, max = 32, message = "Name must be between 2 and 32 characters long")
     private String deliveryStreet;
 
     @CreditCardNumber(message = "Not valid credit card number")

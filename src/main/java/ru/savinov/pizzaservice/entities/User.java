@@ -1,10 +1,11 @@
 package ru.savinov.pizzaservice.entities;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,12 +27,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-@Data
 @Builder
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
+@EqualsAndHashCode
 public class User extends AuditingEntity<Long> implements UserDetails {
 
     @Id
