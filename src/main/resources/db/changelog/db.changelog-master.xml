@@ -17,4 +17,6 @@ http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibas
     <include file="010_create_table_city_locales.xml" relativeToChangelogFile="true"/>
     <include file="011_fill_default_values.xml" relativeToChangelogFile="true"/>
     <include file="012_add_columns_audit_to_users.xml" relativeToChangelogFile="true"/>
+    <include file="013_add_columns_audit_to_pizza_order.xml" relativeToChangelogFile="true"/>
+    <include file="014_add_columns_audit_to_pizza.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

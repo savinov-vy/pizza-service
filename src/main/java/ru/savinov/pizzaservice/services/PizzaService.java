@@ -28,8 +28,7 @@ public class PizzaService {
 
     @Transactional(readOnly = true)
     public Optional<Pizza> findById(Long id) {
-        Optional<Pizza> optional = pizzaRepo.findById(id);
-        return optional;
+        return pizzaRepo.findById(id);
     }
 
 }

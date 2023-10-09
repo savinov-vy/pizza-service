@@ -16,7 +16,6 @@
             CREATE TABLE IF NOT EXISTS pizza (
                 id BIGSERIAL PRIMARY KEY,
                 name VARCHAR(64) NOT NULL,
-                created_at TIMESTAMP NOT NULL,
                 pizza_order_id BIGINT REFERENCES pizza_order(id)
                 );
         </sql>

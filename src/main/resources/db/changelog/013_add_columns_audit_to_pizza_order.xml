@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="add columns: created_at, modified_at, created_by,
+    modified_by to pizza_order table" author="savinov_vy">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists columnName="created_at" tableName="pizza_order"/></not>
+            <not><columnExists columnName="modified_at" tableName="pizza_order"/></not>
+            <not><columnExists columnName="created_by" tableName="pizza_order"/></not>
+            <not><columnExists columnName="modified_by" tableName="pizza_order"/></not>
+        </preConditions>
+        <sql>
+            ALTER TABLE pizza_order
+            ADD COLUMN created_at TIMESTAMP;
+
+            ALTER TABLE pizza_order
+            ADD COLUMN modified_at TIMESTAMP;
+
+            ALTER TABLE pizza_order
+            ADD COLUMN created_by VARCHAR(32);
+
+            ALTER TABLE pizza_order
+            ADD COLUMN modified_by VARCHAR(32);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

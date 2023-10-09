@@ -30,7 +30,7 @@ import java.util.List;
 @Table(name = "pizza_order")
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-public class PizzaOrder implements BaseEntity<Long> {
+public class PizzaOrder extends AuditingEntity<Long> {
 
     private static final long serialVersionUID = -332167508885431556L;
 

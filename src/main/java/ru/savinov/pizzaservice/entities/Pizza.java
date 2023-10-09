@@ -21,7 +21,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -31,7 +30,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 @EqualsAndHashCode(exclude = "createdAt")
-public class Pizza implements BaseEntity<Long> {
+public class Pizza extends AuditingEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,9 +50,6 @@ public class Pizza implements BaseEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "pizza_order_id")
     PizzaOrder pizzaOrder;
-
-    @Column(name = "created_at")
-    private Date createdAt = new Date();
 
     public static Pizza ofDto(PizzaDto dto) {
         return Pizza.builder()
