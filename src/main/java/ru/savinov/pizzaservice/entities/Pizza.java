@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 import ru.savinov.pizzaservice.controllers.dto.PizzaDto;
 import ru.savinov.pizzaservice.status.PizzaStatus;
 
@@ -30,6 +34,8 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "pizza")
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+@AuditTable("pizza_history")
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 @EqualsAndHashCode(exclude = "createdAt")
@@ -48,6 +54,7 @@ public class Pizza extends AuditingEntity<Long> {
     @Enumerated(EnumType.STRING)
     private PizzaStatus status;
 
+    @NotAudited
     @Size(min = 1, message = "You must choose at least 1 ingredient")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "ingredient_to_pizza", joinColumns = @JoinColumn(name = "pizza_id", referencedColumnName = "id"),
