@@ -1,4 +1,4 @@
-package ru.savinov.pizzaservice.anotation;
+package ru.savinov.pizzaservice.audit.anotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

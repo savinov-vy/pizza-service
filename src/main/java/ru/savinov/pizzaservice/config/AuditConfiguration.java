@@ -4,11 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.security.Principal;
-import java.util.Optional;
+import ru.savinov.pizzaservice.audit.AuditorAwareImpl;
 
 
 @Configuration
@@ -17,9 +13,7 @@ public class AuditConfiguration {
 
     @Bean
     public AuditorAware<String> auditorAware() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = Optional.ofNullable(authentication).map(Principal::getName).orElse("unknown");
-        return () -> Optional.of(userName);
+        return new AuditorAwareImpl();
     }
 
 }

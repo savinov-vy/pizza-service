@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import ru.savinov.pizzaservice.anotation.AuditingExecuteMethod;
+import ru.savinov.pizzaservice.audit.anotation.AuditingExecuteMethod;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 

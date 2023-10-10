@@ -1,4 +1,4 @@
-package ru.savinov.pizzaservice.listener.entities;
+package ru.savinov.pizzaservice.audit.listener.entities;
 
 import org.springframework.context.ApplicationEvent;
 
