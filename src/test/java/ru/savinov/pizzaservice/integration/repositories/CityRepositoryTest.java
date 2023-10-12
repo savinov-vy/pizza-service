@@ -24,4 +24,5 @@ class CityRepositoryTest {
         assertNotNull(city);
         assertThat(city.getLocales()).hasSize(2);
     }
+
 }

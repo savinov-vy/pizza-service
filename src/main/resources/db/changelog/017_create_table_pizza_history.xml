@@ -15,8 +15,8 @@
         <sql>
             CREATE TABLE IF NOT EXISTS pizza_history(
                 id BIGINT NOT NULL ,
-                rev INT NOT NULL,
-                revtype int2,
+                rev INT REFERENCES revision(id),
+                revtype SMALLINT,
                 name VARCHAR(64),
                 status VARCHAR(32),
                 pizza_order_id BIGINT,
