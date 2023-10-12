@@ -18,6 +18,8 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
 
+  jdbc.template.fetch-size: 100
+
 pizza:
   orders:
     sizePage: 2
