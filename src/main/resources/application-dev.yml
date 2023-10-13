@@ -1,11 +1,6 @@
 spring:
   thymeleaf:
     cache: false
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${POSTGRES_URL:localhost:5437}/pizza_service_db
-    username: ${POSTGRES_USER:pizza_adm}
-    password: ${POSTGRES_PASSWORD:root}
   jpa:
     hibernate.ddl-auto: validate
 

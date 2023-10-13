@@ -4,16 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.entities.City;
-import ru.savinov.pizzaservice.integration.annotation.IT;
+import ru.savinov.pizzaservice.integration.IntegrationTestBase;
 
 import javax.persistence.EntityManager;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
 
-@IT
 @RequiredArgsConstructor
-class CityRepositoryTest {
+class CityRepositoryTest extends IntegrationTestBase {
 
     private final EntityManager entityManager;
 

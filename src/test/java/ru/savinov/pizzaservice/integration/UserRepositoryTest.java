@@ -9,15 +9,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.entities.Role;
 import ru.savinov.pizzaservice.entities.User;
-import ru.savinov.pizzaservice.integration.annotation.IT;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-@IT
 @RequiredArgsConstructor
-class UserRepositoryTest {
+class UserRepositoryTest extends IntegrationTestBase {
 
     private final UserRepository userRepository;
 

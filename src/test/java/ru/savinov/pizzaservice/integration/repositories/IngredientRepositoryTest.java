@@ -2,18 +2,17 @@ package ru.savinov.pizzaservice.integration.repositories;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.entities.Ingredient;
+import ru.savinov.pizzaservice.integration.IntegrationTestBase;
 import ru.savinov.pizzaservice.repositories.IngredientRepository;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-class IngredientRepositoryTest {
+class IngredientRepositoryTest extends IntegrationTestBase {
 
     @Autowired
     IngredientRepository ingredientRepo;

@@ -1,6 +1,7 @@
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${POSTGRES_URL:localhost:5437}/pizza_service_db
-    username: ${POSTGRES_USER:pizza_adm}
-    password: ${POSTGRES_PASSWORD:root}
+    username: test
+    password: test
+  jpa:
+    hibernate.ddl-auto: validate

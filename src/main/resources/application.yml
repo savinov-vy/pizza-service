@@ -2,18 +2,16 @@ spring:
   thymeleaf:
     cache: false
   datasource:
-    generate-unique-name: false
-    name: pizzaDb_h2
-
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:pizzaDb_h2
-    username: sa
-    password:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_URL:localhost:5437}/pizza_service_db
+    username: ${POSTGRES_USER:pizza_adm}
+    password: ${POSTGRES_PASSWORD:root}
+  jpa:
+    hibernate.ddl-auto: validate
+    show-sql: true
 
   profiles:
-    active:
-  jpa:
-    show-sql: true
+    active: dev
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
