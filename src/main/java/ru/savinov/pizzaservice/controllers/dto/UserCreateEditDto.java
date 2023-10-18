@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
-public class RegistrationFormDto {
+public class UserCreateEditDto {
 
     @Size(min = 1, message = "Enter your login")
     private String username;
