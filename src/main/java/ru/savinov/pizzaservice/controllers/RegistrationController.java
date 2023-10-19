@@ -46,7 +46,7 @@ public class RegistrationController {
             model.addAttribute("allErrors", allErrors);
             return "registration";
         }
-        userService.createNewUser(form.toUser(passwordEncoder));
+        userService.create(form);
         return "redirect:/login";
     }
 

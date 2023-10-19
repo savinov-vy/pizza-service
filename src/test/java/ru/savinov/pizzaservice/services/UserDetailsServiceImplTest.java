@@ -32,7 +32,7 @@ class UserDetailsServiceImplTest {
                 .password("12345")
                 .fullname("fname")
                 .street("street")
-                .city(City.of(1))
+                .city(defaultCity())
                 .build();
     }
 
@@ -44,6 +44,12 @@ class UserDetailsServiceImplTest {
 
         assertTrue(nonNull(actualResult));
         assertEquals(user, actualResult);
+    }
+
+    private City defaultCity() {
+        return City.builder()
+                .id(1)
+                .build();
     }
 
 }

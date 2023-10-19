@@ -2,10 +2,6 @@ package ru.savinov.pizzaservice.controllers.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.savinov.pizzaservice.entities.City;
-import ru.savinov.pizzaservice.entities.Role;
-import ru.savinov.pizzaservice.entities.User;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,15 +28,6 @@ public class UserCreateEditDto {
     @NotNull(message = "City must be selected")
     private Integer cityId;
 
-    public User toUser(PasswordEncoder passwordEncoder) {
-        return User.builder()
-                .username(username)
-                .password(passwordEncoder.encode(password))
-                .fullname(fullname)
-                .street(street)
-                .role(Role.USER)
-                .city(City.of(cityId))
-                .build();
-    }
+    private String role;
 
 }
