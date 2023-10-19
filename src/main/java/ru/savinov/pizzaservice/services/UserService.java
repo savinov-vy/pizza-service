@@ -11,6 +11,7 @@ import ru.savinov.pizzaservice.mapper.UserReadMapper;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +31,11 @@ public class UserService {
         return userRepo.findAll().stream()
                 .map(userReadMapper::map)
                 .collect(Collectors.toList());
+    }
+
+    public Optional<UserReadDto> findById(Long id) {
+        return userRepo.findById(id)
+                .map(userReadMapper::map);
     }
 
 }
