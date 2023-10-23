@@ -7,9 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.savinov.pizzaservice.entities.City;
-import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.repositories.UserRepository;
+import ru.savinov.test_helpers.factories.UserFactory;
 
 import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,29 +26,18 @@ class UserDetailsServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        user = User.builder()
-                .username("name_test")
-                .password("12345")
-                .fullname("fname")
-                .street("street")
-                .city(defaultCity())
-                .build();
+        user = UserFactory.of();
     }
 
     @Test
     void loadUserByUsername() {
-        doReturn(user).when(userRepo).findByUsername("name_test");
+        String username = user.getUsername();
 
-        UserDetails actualResult = subject.loadUserByUsername("name_test");
+        doReturn(user).when(userRepo).findByUsername(username);
 
+        UserDetails actualResult = subject.loadUserByUsername(username);
         assertTrue(nonNull(actualResult));
         assertEquals(user, actualResult);
-    }
-
-    private City defaultCity() {
-        return City.builder()
-                .id(1)
-                .build();
     }
 
 }
