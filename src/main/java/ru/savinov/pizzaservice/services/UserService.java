@@ -3,6 +3,7 @@ package ru.savinov.pizzaservice.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.controllers.dto.UserReadDto;
 import ru.savinov.pizzaservice.audit.listener.entities.AccessType;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepo;
@@ -35,6 +37,7 @@ public class UserService {
                 .map(userReadMapper::map);
     }
 
+    @Transactional
     public UserReadDto create(UserCreateEditDto userDto) {
         eventPublisher.publishEvent(new EntityEvent(userDto, AccessType.CREATE));
         return Optional.of(userDto)
@@ -42,6 +45,26 @@ public class UserService {
                 .map(userRepo::save)
                 .map(userReadMapper::map)
                 .orElseThrow();
+    }
+
+    @Transactional
+    public Optional<UserReadDto> update(Long id, UserCreateEditDto userDto) {
+        eventPublisher.publishEvent(new EntityEvent(userDto, AccessType.UPDATE));
+        return userRepo.findById(id)
+                .map(user -> userCreateEditMapper.map(userDto, user))
+                .map(userRepo::saveAndFlush)
+                .map(userReadMapper::map);
+    }
+
+    @Transactional
+    public boolean delete(Long id) {
+        return userRepo.findById(id)
+                .map(user -> {
+                    eventPublisher.publishEvent(new EntityEvent(user, AccessType.DELETE));
+                    userRepo.delete(user);
+                    return true;
+                })
+                .orElse(false);
     }
 
 }

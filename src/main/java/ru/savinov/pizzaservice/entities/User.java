@@ -32,7 +32,7 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
-@AllArgsConstructor(staticName = "of")
+@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
 public class User extends AuditingEntity<Long> implements UserDetails {

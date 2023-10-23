@@ -30,6 +30,16 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
                 .build();
     }
 
+    @Override
+    public User map(UserCreateEditDto fromDto, User toUser) {
+        toUser.setFullname(fromDto.getFullname());
+        toUser.setUsername(fromDto.getUsername());
+        toUser.setRole(getRole(fromDto.getRole()));
+        toUser.setStreet(fromDto.getStreet());
+        toUser.setCity(getCity(fromDto.getCityId()));
+        return toUser;
+    }
+
     private City getCity(Integer cityId) {
         return Optional.of(cityId)
                 .flatMap(cityRepository::findById)

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public String userById(@PathVariable("id") Long id, Model model) {
+    public String findById(@PathVariable("id") Long id, Model model) {
         return userService.findById(id)
                 .map(userReadDto -> {
                     model.addAttribute("user", userReadDto);
@@ -42,8 +43,24 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createUser(UserCreateEditDto userDto) {
+    public String create(UserCreateEditDto userDto) {
         return "redirect:/users/" + userService.create(userDto).getId();
+    }
+
+    @PostMapping("/{id}/update")
+    public String update(@PathVariable("id") Long id, @ModelAttribute UserCreateEditDto user) {
+        return userService.update(id, user)
+                .map(updated -> "redirect:/users/{id}")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/{id}/delete")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public String delete(@PathVariable("id") Long id) {
+        if (!userService.delete(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return "redirect:/users";
     }
 
 }
