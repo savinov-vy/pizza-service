@@ -2,7 +2,6 @@ package ru.savinov.pizzaservice.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -25,7 +24,6 @@ import static liquibase.repackaged.org.apache.commons.lang3.StringUtils.isNotEmp
 public class RegistrationController {
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
     private final CityService cityService;
 
     @GetMapping

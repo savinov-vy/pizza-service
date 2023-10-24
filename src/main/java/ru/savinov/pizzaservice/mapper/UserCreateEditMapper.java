@@ -5,7 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.entities.City;
-import ru.savinov.pizzaservice.entities.Role;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.repositories.CityRepository;
 
@@ -24,7 +23,7 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
                 .fullname(object.getFullname())
                 .username(object.getUsername())
                 .password(passwordEncoder.encode(object.getPassword()))
-                .role(getRole(object.getRole()))
+                .role(object.getRole())
                 .street(object.getStreet())
                 .city(getCity(object.getCityId()))
                 .build();
@@ -34,7 +33,7 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
     public User map(UserCreateEditDto fromDto, User toUser) {
         toUser.setFullname(fromDto.getFullname());
         toUser.setUsername(fromDto.getUsername());
-        toUser.setRole(getRole(fromDto.getRole()));
+        toUser.setRole(fromDto.getRole());
         toUser.setStreet(fromDto.getStreet());
         toUser.setCity(getCity(fromDto.getCityId()));
         return toUser;
@@ -44,16 +43,6 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
         return Optional.of(cityId)
                 .flatMap(cityRepository::findById)
                 .orElse(null);
-    }
-
-    private Role getRole(String roleValue) {
-        return Optional.ofNullable(roleValue)
-                .map(Role::getByValue)
-                .orElse(defaultRole());
-    }
-
-    private Role defaultRole() {
-        return Role.USER;
     }
 
 }

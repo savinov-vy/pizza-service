@@ -6,7 +6,6 @@ public class CityFactory {
 
     public static City of() {
         return City.builder()
-                .id(1)
                 .name("nameCityTest")
                 .build();
     }

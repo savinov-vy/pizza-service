@@ -1,12 +1,15 @@
 package ru.savinov.pizzaservice.controllers.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import ru.savinov.pizzaservice.entities.Role;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
+@Builder
 @AllArgsConstructor
 public class UserCreateEditDto {
 
@@ -28,6 +31,6 @@ public class UserCreateEditDto {
     @NotNull(message = "City must be selected")
     private Integer cityId;
 
-    private String role;
+    private Role role;
 
 }
