@@ -62,6 +62,7 @@ public class UserService {
                 .map(user -> {
                     eventPublisher.publishEvent(new EntityEvent(user, AccessType.DELETE));
                     userRepo.delete(user);
+                    userRepo.flush();
                     return true;
                 })
                 .orElse(false);
