@@ -1,9 +1,11 @@
 package ru.savinov.pizzaservice.integration.services;
 
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.annotation.DirtiesContext;
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.controllers.dto.UserReadDto;
 import ru.savinov.pizzaservice.entities.Role;
@@ -24,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RequiredArgsConstructor
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class UserServiceTest extends IntegrationTestBase {
 
     private final UserService userService;
