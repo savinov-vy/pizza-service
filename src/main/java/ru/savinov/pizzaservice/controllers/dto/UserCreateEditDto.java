@@ -3,6 +3,7 @@ package ru.savinov.pizzaservice.controllers.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 import ru.savinov.pizzaservice.entities.Role;
 
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @Builder
+@FieldNameConstants
 @AllArgsConstructor
 public class UserCreateEditDto {
 
