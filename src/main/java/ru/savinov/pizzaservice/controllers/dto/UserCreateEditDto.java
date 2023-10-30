@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 import ru.savinov.pizzaservice.entities.Role;
+import ru.savinov.pizzaservice.validation.registration.PasswordConfirmed;
+import ru.savinov.pizzaservice.validation.registration.UserCreateInfo;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,6 +15,7 @@ import javax.validation.constraints.Size;
 @Builder
 @FieldNameConstants
 @AllArgsConstructor
+@UserCreateInfo(groups = PasswordConfirmed.class)
 public class UserCreateEditDto {
 
     @Size(min = 1, message = "Enter your login")

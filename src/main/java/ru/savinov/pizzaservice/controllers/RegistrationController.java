@@ -5,18 +5,17 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.services.CityService;
 import ru.savinov.pizzaservice.services.UserService;
+import ru.savinov.pizzaservice.validation.registration.PasswordConfirmed;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static liquibase.repackaged.org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Controller
 @RequestMapping("/register")
@@ -33,10 +32,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String processRegistration(@Valid UserCreateEditDto form, Errors errors, Model model) {
-        if (isNotEmpty(form.getPassword()) && !form.getPassword().equals(form.getConfirmPassword()) ) {
-            errors.reject("password", "Password and confirm password is not equals");
-        }
+    public String processRegistration(@Validated(PasswordConfirmed.class) UserCreateEditDto form, Errors errors, Model model) {
         if (errors.hasErrors()) {
             List<String> allErrors = errors.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
