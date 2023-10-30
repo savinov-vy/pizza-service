@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .failureUrl("/register/login-error")
                 .defaultSuccessUrl("/design")
                 .loginProcessingUrl("/authenticateTheUser")
 
