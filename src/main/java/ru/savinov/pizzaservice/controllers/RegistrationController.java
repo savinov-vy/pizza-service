@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +35,7 @@ public class RegistrationController {
 
     @PostMapping
     public String processRegistration(@Validated(PasswordConfirmed.class) UserCreateEditDto form,
-                                      BindingResult bindingResult, Errors errors, Model model) {
+                                      Errors errors, Model model) {
         if (errors.hasErrors()) {
             List<String> allErrors = errors.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)

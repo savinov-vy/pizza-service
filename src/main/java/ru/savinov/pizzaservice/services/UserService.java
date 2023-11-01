@@ -8,6 +8,8 @@ import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.controllers.dto.UserReadDto;
 import ru.savinov.pizzaservice.audit.listener.entities.AccessType;
 import ru.savinov.pizzaservice.audit.listener.entities.EntityEvent;
+import ru.savinov.pizzaservice.entities.User;
+import ru.savinov.pizzaservice.exceptions.UserExistException;
 import ru.savinov.pizzaservice.mapper.UserCreateEditMapper;
 import ru.savinov.pizzaservice.mapper.UserReadMapper;
 import ru.savinov.pizzaservice.repositories.UserRepository;
@@ -42,9 +44,18 @@ public class UserService {
         eventPublisher.publishEvent(new EntityEvent(userDto, AccessType.CREATE));
         return Optional.of(userDto)
                 .map(userCreateEditMapper::map)
-                .map(userRepo::save)
+                .map(this::saveIsNotExist)
                 .map(userReadMapper::map)
                 .orElseThrow();
+    }
+
+    private User saveIsNotExist(User user) {
+        Optional<User> existUser = userRepo.findByUsername(user.getUsername());
+        existUser.ifPresent(s -> {
+            String errorSaveMessage = String.format("A user with login %s already exists", user.getUsername());
+            throw new UserExistException(errorSaveMessage);
+        });
+        return userRepo.save(user);
     }
 
     @Transactional

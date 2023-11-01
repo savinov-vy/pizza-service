@@ -51,16 +51,16 @@ class UserControllerTest extends IntegrationTestBase {
     @Test
     @Transactional
     void create() throws Exception {
-        User isNotSaved = userRepository.findByUsername(userDto.getUsername());
-        assertTrue(Optional.ofNullable(isNotSaved).isEmpty());
+        Optional<User> isNotSaved = userRepository.findByUsername(userDto.getUsername());
+        assertTrue(isNotSaved.isEmpty());
 
         ResultActions result = mockMvc.perform(post("/users").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userDto)));
                 result.andExpect(status().is3xxRedirection());
 
-        User isSaved = userRepository.findByUsername(userDto.getUsername());
-        assertTrue(Optional.ofNullable(isSaved).isPresent());
+        Optional<User> isSaved = userRepository.findByUsername(userDto.getUsername());
+        assertTrue(isSaved.isPresent());
     }
 
 }

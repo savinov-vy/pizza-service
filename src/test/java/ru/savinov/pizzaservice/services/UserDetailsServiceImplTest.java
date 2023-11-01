@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 import ru.savinov.test_helpers.factories.UserFactory;
 
+import java.util.Optional;
+
 import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
@@ -33,7 +35,7 @@ class UserDetailsServiceImplTest {
     void loadUserByUsername() {
         String username = user.getUsername();
 
-        doReturn(user).when(userRepo).findByUsername(username);
+        doReturn(Optional.of(user)).when(userRepo).findByUsername(username);
 
         UserDetails actualResult = subject.loadUserByUsername(username);
         assertTrue(nonNull(actualResult));
