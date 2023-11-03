@@ -13,7 +13,7 @@
       th:action="@{/register}" id="registerForm">
         <p style="display: block; color: red" th:if="${errorMessages}"
               th:each="error : ${errorMessages}"
-              th:text="${error}">errors</p>
+              th:text="${error}">error user registration</p>
 
     <label for="username">Username: </label>
     <input id="username" type="text" name="username"/><br/>
@@ -40,10 +40,6 @@
                 th:text="${city.name}">
         </option>
     </select>
-    <span style="display: block; color: red" class="validationError"
-          th:each="error : ${allErrors}"
-          th:text="${error}">error user registration</span>
-
     <input style="margin-top: 20px" type="submit" value="Register"/>
 </form>
 

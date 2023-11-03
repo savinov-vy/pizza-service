@@ -1,50 +1,47 @@
 package ru.savinov.pizzaservice.config;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+
+import static ru.savinov.pizzaservice.entities.Role.ADMIN;
+import static ru.savinov.pizzaservice.entities.Role.USER;
 
 @Configuration
 @AllArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
-    @Scope(BeanDefinition.SCOPE_SINGLETON)
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .headers().frameOptions().disable()
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(urlConfig -> urlConfig
+                        .antMatchers("/login", "/register", "/design").permitAll()
+                        .antMatchers("/orders").hasAuthority(USER.getAuthority())
+                        .antMatchers("/users").hasAuthority(ADMIN.getAuthority())
+                        .anyRequest().authenticated())
 
-                .and()
-                .authorizeRequests()
-                .mvcMatchers("/design", "/orders").access("hasRole('USER')")
-                .antMatchers("/", "/**").access("permitAll")
+                .formLogin(login -> login
+                        .loginPage("/login").loginProcessingUrl("/authenticateTheUser")
+                        .failureUrl("/register/login-error")
+                        .defaultSuccessUrl("/design")
+                        .loginProcessingUrl("/authenticateTheUser"))
 
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .failureUrl("/register/login-error")
-                .defaultSuccessUrl("/design")
-                .loginProcessingUrl("/authenticateTheUser")
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .deleteCookies("JSESSIONID"))
 
-                .and()
-                .csrf()
-                .ignoringAntMatchers("/h2-console/**")
-
-                .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .and()
-                .build();
+                .csrf(csrf -> csrf
+                        .ignoringAntMatchers("/h2-console/**"));
     }
+
 }

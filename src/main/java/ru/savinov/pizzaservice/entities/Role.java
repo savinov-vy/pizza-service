@@ -2,12 +2,13 @@ package ru.savinov.pizzaservice.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;
 
 @Getter
 @AllArgsConstructor
-public enum Role {
+public enum Role implements GrantedAuthority {
 
     USER("USER"),
     ADMIN("ADMIN");
@@ -20,4 +21,8 @@ public enum Role {
                 .findAny().orElse(null);
     }
 
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

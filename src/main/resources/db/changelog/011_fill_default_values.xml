@@ -50,21 +50,21 @@
                    ((SELECT id FROM city WHERE name = 'SOCHI'), 'ru', 'Сочи описание');
 
             INSERT INTO users(id, username, password, fullname, street, city_id, role)
-            VALUES (DEFAULT, 'admin','$2a$10$Z3mrWDiQkxE.p/irh9u1nuCfioUyFVHpInslhW4K5Ahbcp2XLZMwe',
+            VALUES (DEFAULT, 'admin','{bcrypt}$2a$10$Z3mrWDiQkxE.p/irh9u1nuCfioUyFVHpInslhW4K5Ahbcp2XLZMwe',
                     'Крылов Денис Иванович', 'Ленина', (SELECT id FROM city where name = 'IRKUTSK'), 'ADMIN'),
-                   (DEFAULT, 'user','$2a$10$1lYgcW8Un7RBNGeLH0svX.7UAyHly7P0RcbkeabK7Qx9QWtXa5ioO',
+                   (DEFAULT, 'user','{bcrypt}$2a$10$1lYgcW8Un7RBNGeLH0svX.7UAyHly7P0RcbkeabK7Qx9QWtXa5ioO',
                     'Петров Фёдор Иванович', 'Погодаева', (SELECT id FROM city where name = 'BRATSK'), 'USER'),
-                   (DEFAULT, 'user1','$2a$10$18H/qVa9xAwJzdVoUbA1f.fubB1Y2UbMzb6eL9QdHws53WG411IB2',
+                   (DEFAULT, 'user1','{bcrypt}$2a$10$18H/qVa9xAwJzdVoUbA1f.fubB1Y2UbMzb6eL9QdHws53WG411IB2',
                     'Смирнова Лилия Ивановна', 'Иванова', (SELECT id FROM city where name = 'NOVOSIBIRSK'), 'USER'),
-                   (DEFAULT, 'user2','$2a$10$jyQzik.7pkCetG6ytFTvGOVQpEywzuZAFErI7YY/phYIZ4BF1OUyy',
+                   (DEFAULT, 'user2','{bcrypt}$2a$10$jyQzik.7pkCetG6ytFTvGOVQpEywzuZAFErI7YY/phYIZ4BF1OUyy',
                     'Крот Иван Петрович', 'Лермонтова', (SELECT id FROM city where name = 'KRASNOYARSK'), 'USER'),
-                   (DEFAULT, 'user3','$2a$10$X05MaB9R5PPoXq4sekrFJeRj76dq5Atyf/JKXv1a2H8yTRI6RhZrK',
+                   (DEFAULT, 'user3','{bcrypt}$2a$10$X05MaB9R5PPoXq4sekrFJeRj76dq5Atyf/JKXv1a2H8yTRI6RhZrK',
                     'Смекалкин Илья Ефграфович', 'Пушкина', (SELECT id FROM city where name = 'ANGARSK'), 'USER'),
-                   (DEFAULT, 'user4','$2a$10$LdJSwptIaC/oY94ytKTpyOlc/jWkrlpOAqTXDOrWqr6new9d46UeS',
+                   (DEFAULT, 'user4','{bcrypt}$2a$10$LdJSwptIaC/oY94ytKTpyOlc/jWkrlpOAqTXDOrWqr6new9d46UeS',
                     'Уфанова Екатерина Петровна', 'Сергеева', (SELECT id FROM city where name = 'MOSCOW'), 'USER'),
-                   (DEFAULT, 'user5','$2a$10$6ARLGRuTwr2vGkapmhxibuMTa.tDfUEwBZ/I8DLao10gBStACcWgS',
+                   (DEFAULT, 'user5','{bcrypt}$2a$10$6ARLGRuTwr2vGkapmhxibuMTa.tDfUEwBZ/I8DLao10gBStACcWgS',
                     'Некрасов Егор Игоревич', 'Тимирязева', (SELECT id FROM city where name = 'ANAPA'), 'USER'),
-                   (DEFAULT, 'user6','$2a$10$dkBKd5VRLjvf.Q765ZtUBuKche03.G5/ehZXSsQ2CRdh6sV1I7kjG',
+                   (DEFAULT, 'user6','{bcrypt}$2a$10$dkBKd5VRLjvf.Q765ZtUBuKche03.G5/ehZXSsQ2CRdh6sV1I7kjG',
                     'Шварц Мария Сергеевна', 'Берёзовая', (SELECT id FROM city where name = 'SOCHI'), 'USER')
         </sql>
     </changeSet>

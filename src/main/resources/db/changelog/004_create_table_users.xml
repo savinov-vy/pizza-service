@@ -16,7 +16,7 @@
             CREATE TABLE IF NOT EXISTS users (
                 id BIGSERIAL PRIMARY KEY,
                 username VARCHAR(32) NOT NULL UNIQUE,
-                password VARCHAR(64) NOT NULL UNIQUE,
+                password VARCHAR(128) NOT NULL UNIQUE,
                 fullname VARCHAR(64),
                 street VARCHAR(64),
                 city_id INT REFERENCES city(id),

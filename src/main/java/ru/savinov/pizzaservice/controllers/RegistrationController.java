@@ -40,7 +40,7 @@ public class RegistrationController {
             List<String> allErrors = errors.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.toList());
-            model.addAttribute("allErrors", allErrors);
+            model.addAttribute("errorMessages", allErrors);
             return "registration";
         }
         userService.create(form);
