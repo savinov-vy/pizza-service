@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,7 +58,7 @@ public class PizzaOrder extends AuditingEntity<Long> {
 
     private Date placedAt = new Date();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pizzaOrder")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pizzaOrder", fetch = FetchType.LAZY)
     private List<Pizza> pizzas = new ArrayList<>();
 
     public void addPizza(Pizza pizza) {

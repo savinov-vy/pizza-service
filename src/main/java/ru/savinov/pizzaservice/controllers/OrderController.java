@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.savinov.pizzaservice.config.PizzaPageProps;
+import ru.savinov.pizzaservice.controllers.dto.PizzaOrderReadDto;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.services.PizzaOrderService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -52,7 +54,8 @@ public class OrderController {
     public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
         int sizePage = pizzaPageProps.getSizePage();
         Pageable pageable = PageRequest.of(0, sizePage);
-        model.addAttribute("orders", orderService.findBy(user, pageable));
+        List<PizzaOrderReadDto> orders = orderService.findBy(user.getId(), pageable);
+        model.addAttribute("orders", orders);
         log.info("count orders in page: {}", sizePage);
         return "orderList";
     }

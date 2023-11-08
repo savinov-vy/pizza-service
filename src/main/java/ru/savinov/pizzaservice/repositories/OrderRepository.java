@@ -1,19 +1,1 @@
-package ru.savinov.pizzaservice.repositories;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import ru.savinov.pizzaservice.entities.PizzaOrder;
-import ru.savinov.pizzaservice.entities.User;
-
-import java.util.List;
-
-public interface OrderRepository extends JpaRepository<PizzaOrder, Long> {
-
-    List<PizzaOrder> findByUserOrderByPlacedAtDesc(User user, Pageable pageable);
-
-    @Query("select o from PizzaOrder o where o.deliveryStreet = :deliveryStreet")
-    List<PizzaOrder> readOrdersByDeliveryStreet(@Param("deliveryStreet") String deliveryStreet);
-
-}
+package ru.savinov.pizzaservice.repositories;import org.springframework.data.domain.Pageable;import org.springframework.data.jpa.repository.JpaRepository;import org.springframework.data.jpa.repository.Query;import org.springframework.data.repository.query.Param;import ru.savinov.pizzaservice.entities.PizzaOrder;import java.util.List;public interface OrderRepository extends JpaRepository<PizzaOrder, Long> {    @Query(value = "select po from PizzaOrder po join fetch po.pizzas where po.user.id = :userId")    List<PizzaOrder> findByUserId(@Param("userId") Long userId, Pageable pageable);    @Query("select o from PizzaOrder o where o.deliveryStreet = :deliveryStreet")    List<PizzaOrder> readOrdersByDeliveryStreet(@Param("deliveryStreet") String deliveryStreet);}

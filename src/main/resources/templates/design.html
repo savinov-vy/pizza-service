@@ -9,11 +9,11 @@
 <body>
 <h1>Design your pizza!</h1>
 <img th:src="@{/images/PizzaEnjoy.png}"/>
+<nav th:insert="~{block/fragment :: header}"></nav>
 <form method="post" th:action="@{/design}" th:object="${pizza}">
     <span style="display: block" class="validationError"
           th:each="error : ${allErrors}"
           th:text="${error}">ingredients error</span>
-    <span th:text="${#authentication.principal.username}">Username</span>
     <div class="grid">
         <h3>Designate your sausage:</h3>
         <div th:each="ingredient : ${sausage}">

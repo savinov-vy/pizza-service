@@ -1,6 +1,7 @@
 package ru.savinov.pizzaservice.controllers.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import ru.savinov.pizzaservice.entities.Ingredient;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 public class PizzaDto {
 

@@ -5,19 +5,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.savinov.pizzaservice.controllers.dto.PizzaOrderReadDto;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
 import ru.savinov.pizzaservice.entities.User;
+import ru.savinov.pizzaservice.mapper.PizzaOrderReadMapper;
 import ru.savinov.pizzaservice.repositories.OrderRepository;
 import ru.savinov.pizzaservice.status.PizzaStatus;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PizzaOrderService {
 
+    private final PizzaOrderReadMapper pizzaOrderReadMapper;
     private final OrderRepository orderRepository;
     private final EntityManager entityManager;
 
@@ -36,8 +41,10 @@ public class PizzaOrderService {
         });
     }
 
-    public List<PizzaOrder> findBy(User user, Pageable pageable) {
-        return orderRepository.findByUserOrderByPlacedAtDesc(user, pageable);
+    public List<PizzaOrderReadDto> findBy(Long userId, Pageable pageable) {
+        return orderRepository.findByUserId(userId, pageable).stream()
+                .map(pizzaOrderReadMapper::map)
+                .collect(Collectors.toList());
     }
 
 }

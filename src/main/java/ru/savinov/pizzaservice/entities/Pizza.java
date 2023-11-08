@@ -9,7 +9,6 @@ import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
-import ru.savinov.pizzaservice.controllers.dto.PizzaDto;
 import ru.savinov.pizzaservice.status.PizzaStatus;
 
 import javax.persistence.Column;
@@ -56,21 +55,13 @@ public class Pizza extends AuditingEntity<Long> {
 
     @NotAudited
     @Size(min = 1, message = "You must choose at least 1 ingredient")
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ingredient_to_pizza", joinColumns = @JoinColumn(name = "pizza_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id", referencedColumnName = "id"))
     private List<Ingredient> ingredients = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pizza_order_id")
     PizzaOrder pizzaOrder;
-
-    public static Pizza ofDto(PizzaDto dto) {
-        return Pizza.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .ingredients(dto.getIngredients())
-                .build();
-    }
 
 }

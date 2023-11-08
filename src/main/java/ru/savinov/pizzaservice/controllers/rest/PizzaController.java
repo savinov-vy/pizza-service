@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.savinov.pizzaservice.config.PizzaPageProps;
 import ru.savinov.pizzaservice.controllers.dto.PizzaDto;
 import ru.savinov.pizzaservice.entities.Pizza;
+import ru.savinov.pizzaservice.mapper.PizzaDtoMapper;
 import ru.savinov.pizzaservice.services.PizzaService;
 
 import java.util.Optional;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://pizzaservice:8080")
 public class PizzaController {
 
+    private PizzaDtoMapper pizzaDtoMapper;
     private PizzaPageProps pizzaPageProps;
     private PizzaService pizzaService;
 
@@ -39,7 +41,7 @@ public class PizzaController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Pizza postPizza(@RequestBody PizzaDto dto) {
-        Pizza pizza = Pizza.ofDto(dto);
+        Pizza pizza = pizzaDtoMapper.map(dto);
         return pizzaService.save(pizza);
     }
 

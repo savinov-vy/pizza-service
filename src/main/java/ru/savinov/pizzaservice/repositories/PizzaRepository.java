@@ -5,5 +5,7 @@ import org.springframework.data.repository.history.RevisionRepository;
 import ru.savinov.pizzaservice.entities.Pizza;
 
 public interface PizzaRepository extends JpaRepository<Pizza, Long>, RevisionRepository<Pizza, Long, Integer> {
+
     Pizza findByName(String name);
+
 }
