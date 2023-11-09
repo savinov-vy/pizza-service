@@ -1,19 +1,17 @@
 package ru.savinov.pizzaservice.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import ru.savinov.pizzaservice.services.UserService;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -27,11 +25,7 @@ import static ru.savinov.pizzaservice.entities.Role.USER;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+    private final UserService userService;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -57,15 +51,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .csrf(csrf -> csrf
                         .ignoringAntMatchers("/h2-console/**"))
+
                 .oauth2Login(config -> config
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/design")
                         .userInfoEndpoint(userInfo -> userInfo.oidcUserService(oidcUserService())));
 
     }
 
     private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
         return userRequest -> {
-            String email = userRequest.getIdToken().getClaim("email");
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            UserDetails userDetails = getOrCreateUserDetails(userRequest);
             DefaultOidcUser oidcUser = new DefaultOidcUser(userDetails.getAuthorities(), userRequest.getIdToken());
             Set<Method> userDetailsMethods = Set.of(UserDetails.class.getMethods());
             return (OidcUser) Proxy.newProxyInstance(SecurityConfig.class.getClassLoader(),
@@ -74,6 +70,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             ? method.invoke(userDetails, args)
                             : method.invoke(oidcUser, args));
         };
+    }
+
+    private UserDetails getOrCreateUserDetails(OidcUserRequest userRequest) {
+        String email = userRequest.getIdToken().getClaim("email");
+        UserDetails userDetails;
+        try {
+            userDetails = userDetailsService.loadUserByUsername(email);
+        } catch (Exception e) {
+            userDetails = createNewUser(userRequest);
+        }
+        return userDetails;
+    }
+
+    private UserDetails createNewUser(OidcUserRequest userRequest) {
+        return userService.create(userRequest);
     }
 
 }

@@ -2,6 +2,7 @@ package ru.savinov.pizzaservice.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
@@ -46,6 +47,15 @@ public class UserService {
                 .map(userCreateEditMapper::map)
                 .map(this::saveIsNotExist)
                 .map(userReadMapper::map)
+                .orElseThrow();
+    }
+
+    @Transactional
+    public User create(OidcUserRequest userRequest) {
+        eventPublisher.publishEvent(new EntityEvent(userRequest, AccessType.CREATE));
+        return Optional.of(userRequest)
+                .map(userCreateEditMapper::map)
+                .map(this::saveIsNotExist)
                 .orElseThrow();
     }
 

@@ -1,11 +1,15 @@
 package ru.savinov.pizzaservice.mapper;
 
+import liquibase.repackaged.org.apache.commons.lang3.RandomStringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.entities.City;
+import ru.savinov.pizzaservice.entities.Role;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.exceptions.PasswordNullException;
 import ru.savinov.pizzaservice.repositories.CityRepository;
@@ -42,6 +46,17 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
         toUser.setStreet(fromDto.getStreet());
         toUser.setCity(getCity(fromDto.getCityId()));
         return toUser;
+    }
+
+    public User map(OidcUserRequest userRequest) {
+        OidcIdToken token = userRequest.getIdToken();
+        String randomPassword = "%" + RandomStringUtils.randomAlphanumeric(10) + "!";
+        return User.builder()
+                .username(token.getEmail())
+                .password(passwordEncoder.encode(randomPassword))
+                .fullname(token.getFullName())
+                .role(Role.USER)
+                .build();
     }
 
     private City getCity(Integer cityId) {
