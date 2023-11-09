@@ -19,6 +19,16 @@ spring:
 
   jdbc.template.fetch-size: 100
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 213577873753-rkr3kj6od6g8jboibs855tg9ld7m6dhc.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: http://localhost:8080/login/oauth2/code/google
+            scope: openid,email,profile
+
 pizza:
   orders:
     sizePage: 2
