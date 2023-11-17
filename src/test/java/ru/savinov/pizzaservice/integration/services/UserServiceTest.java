@@ -10,7 +10,7 @@ import ru.savinov.pizzaservice.controllers.dto.UserReadDto;
 import ru.savinov.pizzaservice.entities.Role;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.integration.IntegrationTestBase;
-import ru.savinov.pizzaservice.mapper.UserCreateEditMapper;
+import ru.savinov.pizzaservice.mapper.UserCreateEditDtoMapper;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 import ru.savinov.pizzaservice.services.UserService;
 import ru.savinov.test_helpers.factories.UserCreateEditDtoFactory;
@@ -30,14 +30,14 @@ public class UserServiceTest extends IntegrationTestBase {
 
     private final UserService userService;
     private final UserRepository userRepository;
-    private final UserCreateEditMapper userCreateEditMapper;
+    private final UserCreateEditDtoMapper userCreateEditDtoMapper;
     private Long userId;
 
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
         UserCreateEditDtoFactory.listOf5Items().stream()
-                .map(userCreateEditMapper::map)
+                .map(userCreateEditDtoMapper::map)
                 .map(userRepository::saveAndFlush)
                 .forEach(user -> userId = user.getId());
     }

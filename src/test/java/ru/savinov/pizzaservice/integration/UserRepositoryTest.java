@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import ru.savinov.pizzaservice.entities.Role;
 import ru.savinov.pizzaservice.entities.User;
-import ru.savinov.pizzaservice.mapper.UserCreateEditMapper;
+import ru.savinov.pizzaservice.mapper.UserCreateEditDtoMapper;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 import ru.savinov.test_helpers.factories.UserCreateEditDtoFactory;
 
@@ -23,14 +23,14 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 class UserRepositoryTest extends IntegrationTestBase {
 
     private final UserRepository userRepository;
-    private final UserCreateEditMapper userCreateEditMapper;
+    private final UserCreateEditDtoMapper userCreateEditDtoMapper;
     private Long userId;
 
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
         UserCreateEditDtoFactory.listOf5Items().stream()
-                .map(userCreateEditMapper::map)
+                .map(userCreateEditDtoMapper::map)
                 .map(userRepository::saveAndFlush)
                 .map(userRepository::saveAndFlush)
                 .forEach(user -> userId = user.getId());

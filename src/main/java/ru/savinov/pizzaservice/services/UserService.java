@@ -11,7 +11,7 @@ import ru.savinov.pizzaservice.audit.listener.entities.AccessType;
 import ru.savinov.pizzaservice.audit.listener.entities.EntityEvent;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.exceptions.UserExistException;
-import ru.savinov.pizzaservice.mapper.UserCreateEditMapper;
+import ru.savinov.pizzaservice.mapper.UserCreateEditDtoMapper;
 import ru.savinov.pizzaservice.mapper.UserReadMapper;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 
@@ -27,7 +27,7 @@ public class UserService {
     private final UserRepository userRepo;
     private final ApplicationEventPublisher eventPublisher;
     private final UserReadMapper userReadMapper;
-    private final UserCreateEditMapper userCreateEditMapper;
+    private final UserCreateEditDtoMapper userCreateEditDtoMapper;
 
     public List<UserReadDto> findAll() {
         return userRepo.findAll().stream()
@@ -44,7 +44,7 @@ public class UserService {
     public UserReadDto create(UserCreateEditDto userDto) {
         eventPublisher.publishEvent(new EntityEvent(userDto, AccessType.CREATE));
         return Optional.of(userDto)
-                .map(userCreateEditMapper::map)
+                .map(userCreateEditDtoMapper::map)
                 .map(this::saveIsNotExist)
                 .map(userReadMapper::map)
                 .orElseThrow();
@@ -54,7 +54,7 @@ public class UserService {
     public User create(OidcUserRequest userRequest) {
         eventPublisher.publishEvent(new EntityEvent(userRequest, AccessType.CREATE));
         return Optional.of(userRequest)
-                .map(userCreateEditMapper::map)
+                .map(userCreateEditDtoMapper::map)
                 .map(this::saveIsNotExist)
                 .orElseThrow();
     }
@@ -72,7 +72,7 @@ public class UserService {
     public Optional<UserReadDto> update(Long id, UserCreateEditDto userDto) {
         eventPublisher.publishEvent(new EntityEvent(userDto, AccessType.UPDATE));
         return userRepo.findById(id)
-                .map(user -> userCreateEditMapper.map(userDto, user))
+                .map(user -> userCreateEditDtoMapper.map(userDto, user))
                 .map(userRepo::saveAndFlush)
                 .map(userReadMapper::map);
     }

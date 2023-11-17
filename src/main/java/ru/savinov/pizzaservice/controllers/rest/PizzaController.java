@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/api/pizzas",
+@RequestMapping(path = "/api/v1/pizzas",
         produces = "application/json")
 @CrossOrigin(origins = "http://pizzaservice:8080")
 public class PizzaController {

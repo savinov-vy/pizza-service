@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class PizzaOrderReadMapper implements Mapper<PizzaOrder, PizzaOrderReadDto> {
+public class PizzaOrderReadDtoMapper implements Mapper<PizzaOrder, PizzaOrderReadDto> {
 
     private final PizzaDtoMapper pizzaDtoMapper;
 

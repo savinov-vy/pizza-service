@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
+public class UserCreateEditDtoMapper implements Mapper<UserCreateEditDto, User> {
 
     private final PasswordEncoder passwordEncoder;
     private final CityRepository cityRepository;

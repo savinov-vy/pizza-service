@@ -5,7 +5,7 @@ import ru.savinov.pizzaservice.controllers.dto.CityReadDto;
 import ru.savinov.pizzaservice.entities.City;
 
 @Component
-public class CityReadMapper implements Mapper<City, CityReadDto> {
+public class CityReadDtoMapper implements Mapper<City, CityReadDto> {
 
     @Override
     public CityReadDto map(City object) {

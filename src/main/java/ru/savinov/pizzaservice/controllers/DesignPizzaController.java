@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import ru.savinov.pizzaservice.controllers.dto.IngredientDto;
 import ru.savinov.pizzaservice.entities.Ingredient;
 import ru.savinov.pizzaservice.entities.Pizza;
 import ru.savinov.pizzaservice.entities.PizzaOrder;
@@ -37,7 +38,7 @@ public class DesignPizzaController {
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = ingredientService.findAll();
+        List<IngredientDto> ingredients = ingredientService.findAll();
         Type[] types = Ingredient.Type.values();
         for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(), ingredientService.filterByType(ingredients, type));

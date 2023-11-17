@@ -12,12 +12,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserReadMapper implements Mapper<User, UserReadDto> {
 
-    private final CityReadMapper cityReadMapper;
+    private final CityReadDtoMapper cityReadDtoMapper;
 
     @Override
     public UserReadDto map(User object) {
         CityReadDto city = Optional.ofNullable(object.getCity())
-                .map(cityReadMapper::map)
+                .map(cityReadDtoMapper::map)
                 .orElse(null);
 
         return UserReadDto.builder()
