@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<liquibase-core.version>4.9.1</liquibase-core.version>
+		<spring-doc>1.7.0</spring-doc>
 	</properties>
 	<dependencies>
 
@@ -110,7 +111,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-oauth2-jose</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${spring-doc}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
