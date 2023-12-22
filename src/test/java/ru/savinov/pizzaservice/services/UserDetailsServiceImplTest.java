@@ -38,8 +38,8 @@ class UserDetailsServiceImplTest {
         doReturn(Optional.of(user)).when(userRepo).findByUsername(username);
 
         UserDetails actualResult = subject.loadUserByUsername(username);
-        assertTrue(nonNull(actualResult));
-        assertEquals(user, actualResult);
+        assertTrue(nonNull(actualResult), "user should be loaded");
+        assertEquals(user, actualResult, "user is not expected");
     }
 
 }
