@@ -24,22 +24,22 @@ class UserDetailsServiceImplTest {
     @InjectMocks
     private UserDetailsServiceImpl subject;
 
-    private UserDetails user;
+    private UserDetails expected;
 
     @BeforeEach
     void setUp() {
-        user = UserFactory.of();
+        expected = UserFactory.of();
     }
 
     @Test
     void loadUserByUsername() {
-        String username = user.getUsername();
+        String username = expected.getUsername();
 
-        doReturn(Optional.of(user)).when(userRepo).findByUsername(username);
+        doReturn(Optional.of(expected)).when(userRepo).findByUsername(username);
 
         UserDetails actualResult = subject.loadUserByUsername(username);
         assertTrue(nonNull(actualResult), "user should be loaded");
-        assertEquals(user, actualResult, "user is not expected");
+        assertEquals(expected, actualResult, "user is not expected");
     }
 
 }

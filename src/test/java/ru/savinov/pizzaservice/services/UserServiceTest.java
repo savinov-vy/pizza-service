@@ -16,10 +16,13 @@ import ru.savinov.test_helpers.factories.UserFactory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,15 +30,12 @@ class UserServiceTest {
 
     @Mock
     private UserRepository userRepo;
-
     @Mock
     private UserReadMapper userReadMapper;
-
     @Mock
-    UserCreateEditDtoMapper userCreateEditDtoMapper;
-
+    private UserCreateEditDtoMapper userCreateEditDtoMapper;
     @Mock
-    ApplicationEventPublisher publisher;
+    private ApplicationEventPublisher publisher;
 
     private UserService subject;
 
@@ -57,6 +57,28 @@ class UserServiceTest {
 
         List<UserReadDto> userReadDtoListResult = subject.findAll();
         assertThat(userReadDtoListResult).hasSize(5);
+    }
+
+    @Test
+    void findById() {
+        User user = UserFactory.of();
+        UserReadDto expected = UserDtoFactory.ofUserReadDto();
+
+        when(userRepo.findById(user.getId())).thenReturn(Optional.of(user));
+        when(userReadMapper.map(user)).thenReturn(expected);
+
+        Optional<UserReadDto> maybeUserReadDto = subject.findById(user.getId());
+        assertTrue(maybeUserReadDto.isPresent());
+        maybeUserReadDto.ifPresent(actualResult ->
+                assertEquals(expected, actualResult, "userReadDto is not expected"));
+    }
+
+    @Test
+    void findById__bad_Id() {
+        Long badId = 111L;
+        when(userRepo.findById(badId)).thenReturn(Optional.empty());
+        Optional<UserReadDto> maybeUserReadDto = subject.findById(badId);
+        assertTrue(maybeUserReadDto.isEmpty());
     }
 
 }

@@ -7,26 +7,26 @@ import ru.savinov.pizzaservice.entities.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public class UserFactory {
 
     public static User of() {
-        return build("");
+        return build(1L);
     }
 
     public static List<User> ofUsers() {
-        return IntStream.rangeClosed(1, 5)
+        return LongStream.rangeClosed(1, 5)
                 .boxed()
-                .map(Object::toString)
                 .map(UserFactory::build)
                 .collect(Collectors.toList());
     }
 
-    private static User build(String postfix) {
+    private static User build(Long id) {
         return User.builder()
-                .username("usernameTest" + postfix)
-                .password(encode("passwordTest"))
+                .id(id)
+                .username("usernameTest" + id)
+                .password(encode())
                 .fullname("fullNameUserTest")
                 .street("nameStreetUserTest")
                 .role(Role.USER)
@@ -34,9 +34,9 @@ public class UserFactory {
                 .build();
     }
 
-    private static String encode(String password) {
+    private static String encode() {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.encode(password);
+        return passwordEncoder.encode("passwordTest");
     }
 
 }
