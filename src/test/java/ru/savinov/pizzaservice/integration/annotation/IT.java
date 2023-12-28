@@ -1,5 +1,6 @@
 package ru.savinov.pizzaservice.integration.annotation;
 
+import org.junit.jupiter.api.Tag;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -9,6 +10,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@Tag("integration")
 @Target(ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
 @ActiveProfiles("test")

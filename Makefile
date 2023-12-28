@@ -10,6 +10,15 @@ down-db:
 test:
 	 ./mvnw test
 
+.PHONY: integration
+integration:
+	./mvnw clean test -Dgroups=integration
+
+.PHONY: unit
+unit:
+	./mvnw clean test -DexcludedGroups=integration
+
+
 .PHONY: cassandra-up
 cassandra-up:
 	docker network create cassandra-net && \
