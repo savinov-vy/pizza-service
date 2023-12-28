@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -56,7 +57,10 @@ class UserServiceTest {
         userToUserReadDto.forEach((key, value) -> when(userReadMapper.map(key)).thenReturn(value));
 
         List<UserReadDto> userReadDtoListResult = subject.findAll();
-        assertThat(userReadDtoListResult).hasSize(5);
+        assertAll(
+                () -> assertThat(userReadDtoListResult).hasSize(5),
+                () -> assertThat(userReadDtoListResult).containsAll(userReadDtoList)
+        );
     }
 
     @Test

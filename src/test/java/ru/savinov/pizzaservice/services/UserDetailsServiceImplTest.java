@@ -7,12 +7,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.savinov.pizzaservice.repositories.UserRepository;
 import ru.savinov.test_helpers.factories.UserFactory;
 
 import java.util.Optional;
 
 import static java.util.Objects.nonNull;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 
@@ -40,6 +42,19 @@ class UserDetailsServiceImplTest {
         UserDetails actualResult = subject.loadUserByUsername(username);
         assertTrue(nonNull(actualResult), "user should be loaded");
         assertEquals(expected, actualResult, "user is not expected");
+    }
+
+    @Test
+    void loadUserByUsername__throwUsernameNotFoundException() {
+        String login = "dummy";
+        assertAll(
+                () -> {
+                    var exception = assertThrows(UsernameNotFoundException.class,
+                            () -> subject.loadUserByUsername(login));
+                    String message = exception.getMessage();
+                    assertThat(message).isEqualTo("User 'dummy' not found");
+                }
+        );
     }
 
 }
