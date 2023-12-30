@@ -8,14 +8,17 @@ down-db:
 
 .PHONY: test
 test:
-	 ./mvnw test
+	make up-db
+	./mvnw test
 
 .PHONY: integration
 integration:
+	make up-db
 	./mvnw clean test -Dgroups=integration
 
 .PHONY: unit
 unit:
+	make up-db
 	./mvnw clean test -DexcludedGroups=integration
 
 

@@ -1,5 +1,6 @@
 package ru.savinov.test_helpers.factories;
 
+import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.controllers.dto.UserReadDto;
 import ru.savinov.pizzaservice.entities.User;
 
@@ -8,23 +9,37 @@ import java.util.stream.Collectors;
 
 public class UserDtoFactory {
 
-    public static UserReadDto ofUserReadDto() {
-        return map(UserFactory.of());
+    public static UserReadDto userReadDto() {
+        return mapToUserReadDto(UserFactory.of());
     }
 
-    public static List<UserReadDto> ofUserReadDtoList() {
+    public static UserCreateEditDto userCreateEditDto() {
+        return mapToUserCreateEditDto(UserFactory.of());
+    }
+
+    public static List<UserReadDto> userReadDtoList() {
         return UserFactory.ofUsers().stream()
-                .map(UserDtoFactory::map)
+                .map(UserDtoFactory::mapToUserReadDto)
                 .collect(Collectors.toList());
     }
 
-    private static UserReadDto map(User user) {
+    private static UserReadDto mapToUserReadDto(User user) {
         return UserReadDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .fullname(user.getFullname())
                 .street(user.getStreet())
                 .city(CityReadDtoFactory.of())
+                .role(user.getRole())
+                .build();
+    }
+
+    private static UserCreateEditDto mapToUserCreateEditDto(User user) {
+        return UserCreateEditDto.builder()
+                .username(user.getUsername())
+                .fullname(user.getFullname())
+                .street(user.getStreet())
+                .cityId(1)
                 .role(user.getRole())
                 .build();
     }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
+import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.controllers.dto.UserReadDto;
 import ru.savinov.pizzaservice.entities.User;
 import ru.savinov.pizzaservice.mapper.UserCreateEditDtoMapper;
@@ -48,7 +49,7 @@ class UserServiceTest {
     @Test
     void findAll() {
         List<User> users = UserFactory.ofUsers();
-        List<UserReadDto> userReadDtoList = UserDtoFactory.ofUserReadDtoList();
+        List<UserReadDto> userReadDtoList = UserDtoFactory.userReadDtoList();
         Map<User, UserReadDto> userToUserReadDto = IntStream.range(0, users.size())
                 .boxed()
                 .collect(Collectors.toMap(users::get, userReadDtoList::get));
@@ -66,7 +67,7 @@ class UserServiceTest {
     @Test
     void findById() {
         User user = UserFactory.of();
-        UserReadDto expected = UserDtoFactory.ofUserReadDto();
+        UserReadDto expected = UserDtoFactory.userReadDto();
 
         when(userRepo.findById(user.getId())).thenReturn(Optional.of(user));
         when(userReadMapper.map(user)).thenReturn(expected);
@@ -83,6 +84,23 @@ class UserServiceTest {
         when(userRepo.findById(badId)).thenReturn(Optional.empty());
         Optional<UserReadDto> maybeUserReadDto = subject.findById(badId);
         assertTrue(maybeUserReadDto.isEmpty());
+    }
+
+    @Test
+    void create() {
+        UserCreateEditDto userDto = UserDtoFactory.userCreateEditDto();
+        User toSave = UserFactory.of(userDto);
+        UserReadDto userReadDto = UserDtoFactory.userReadDto();
+
+        User saved = UserFactory.of(userDto);
+        saved.setId(1L);
+
+        when(userCreateEditDtoMapper.map(userDto)).thenReturn(toSave);
+        when(userRepo.save(toSave)).thenReturn(saved);
+        when(userReadMapper.map(saved)).thenReturn(userReadDto);
+
+        UserReadDto actual = subject.create(userDto);
+        assertThat(userReadDto).isEqualTo(actual);
     }
 
 }
