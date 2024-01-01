@@ -62,7 +62,7 @@ public class UserService {
     private User saveIsNotExist(User user) {
         Optional<User> existUser = userRepo.findByUsername(user.getUsername());
         existUser.ifPresent(s -> {
-            String errorSaveMessage = String.format("A user with login %s already exists", user.getUsername());
+            String errorSaveMessage = String.format("A user with login '%s' already exists", user.getUsername());
             throw new UserExistException(errorSaveMessage);
         });
         return userRepo.save(user);

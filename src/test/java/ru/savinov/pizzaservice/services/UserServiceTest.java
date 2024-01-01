@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.controllers.dto.UserReadDto;
 import ru.savinov.pizzaservice.entities.User;
+import ru.savinov.pizzaservice.exceptions.UserExistException;
 import ru.savinov.pizzaservice.mapper.UserCreateEditDtoMapper;
 import ru.savinov.pizzaservice.mapper.UserReadMapper;
 import ru.savinov.pizzaservice.repositories.UserRepository;
@@ -24,7 +25,9 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -97,10 +100,33 @@ class UserServiceTest {
 
         when(userCreateEditDtoMapper.map(userDto)).thenReturn(toSave);
         when(userRepo.save(toSave)).thenReturn(saved);
+        when(userRepo.findByUsername(toSave.getUsername())).thenReturn(Optional.empty());
         when(userReadMapper.map(saved)).thenReturn(userReadDto);
 
         UserReadDto actual = subject.create(userDto);
         assertThat(userReadDto).isEqualTo(actual);
+    }
+
+    @Test
+    void create__userExist() {
+        UserCreateEditDto userDto = UserDtoFactory.userCreateEditDto();
+        User toSave = UserFactory.of(userDto);
+
+        User saved = UserFactory.of(userDto);
+
+        when(userCreateEditDtoMapper.map(userDto)).thenReturn(toSave);
+        when(userRepo.findByUsername(toSave.getUsername())).thenReturn(Optional.of(saved));
+
+        assertAll(
+                () -> {
+                    var exception = assertThrows(UserExistException.class,
+                            () -> subject.create(userDto));
+
+                    String message = exception.getMessage();
+                    assertThat(message).isEqualTo("A user with login '%s' already exists",
+                            saved.getUsername());
+                }
+        );
     }
 
 }
