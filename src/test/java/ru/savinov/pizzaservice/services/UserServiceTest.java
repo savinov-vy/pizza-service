@@ -3,9 +3,12 @@ package ru.savinov.pizzaservice.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
+import ru.savinov.pizzaservice.audit.listener.entities.AccessType;
+import ru.savinov.pizzaservice.audit.listener.entities.EntityEvent;
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.controllers.dto.UserReadDto;
 import ru.savinov.pizzaservice.entities.User;
@@ -28,6 +31,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -104,7 +110,12 @@ class UserServiceTest {
         when(userReadMapper.map(saved)).thenReturn(userReadDto);
 
         UserReadDto actual = subject.create(userDto);
-        assertThat(userReadDto).isEqualTo(actual);
+        assertAll(
+                () -> assertThat(userReadDto).isEqualTo(actual),
+                () -> verify(publisher, times(1))
+                        .publishEvent(any(EntityEvent.class))
+        );
+
     }
 
     @Test
@@ -125,8 +136,55 @@ class UserServiceTest {
                     String message = exception.getMessage();
                     assertThat(message).isEqualTo("A user with login '%s' already exists",
                             saved.getUsername());
-                }
+                },
+                () -> verify(publisher, times(1))
+                        .publishEvent(any(EntityEvent.class))
         );
     }
 
+    @Test
+    void create__checkWorkingPublishEvent() {
+        UserCreateEditDto userDto = UserDtoFactory.userCreateEditDto();
+        User toSave = UserFactory.of(userDto);
+        UserReadDto userReadDto = UserDtoFactory.userReadDto();
+
+        User saved = UserFactory.of(userDto);
+        saved.setId(1L);
+
+        when(userCreateEditDtoMapper.map(userDto)).thenReturn(toSave);
+        when(userRepo.save(toSave)).thenReturn(saved);
+        when(userRepo.findByUsername(toSave.getUsername())).thenReturn(Optional.empty());
+        when(userReadMapper.map(saved)).thenReturn(userReadDto);
+
+        subject.create(userDto);
+
+        verify(publisher, times(1))
+                .publishEvent(any(EntityEvent.class));
+
+    }
+
+    @Test
+    void create__checkArgumentsEntityEvent() {
+        UserCreateEditDto userDto = UserDtoFactory.userCreateEditDto();
+        User toSave = UserFactory.of(userDto);
+        UserReadDto userReadDto = UserDtoFactory.userReadDto();
+        ArgumentCaptor<EntityEvent> eventCaptor = ArgumentCaptor.forClass(EntityEvent.class);
+
+        User saved = UserFactory.of(userDto);
+        saved.setId(1L);
+
+        when(userCreateEditDtoMapper.map(userDto)).thenReturn(toSave);
+        when(userRepo.save(toSave)).thenReturn(saved);
+        when(userRepo.findByUsername(toSave.getUsername())).thenReturn(Optional.empty());
+        when(userReadMapper.map(saved)).thenReturn(userReadDto);
+
+        subject.create(userDto);
+
+        verify(publisher, times(1))
+                .publishEvent(eventCaptor.capture());
+        EntityEvent captured = eventCaptor.getValue();
+
+        assertThat(captured.getAccessType()).isEqualTo(AccessType.CREATE);
+        assertThat(captured.getSource()).isEqualTo(userDto);
+    }
 }
