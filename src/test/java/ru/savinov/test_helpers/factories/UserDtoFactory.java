@@ -1,6 +1,5 @@
 package ru.savinov.test_helpers.factories;
 
-import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.controllers.dto.UserReadDto;
 import ru.savinov.pizzaservice.entities.User;
 
@@ -13,8 +12,8 @@ public class UserDtoFactory {
         return mapToUserReadDto(UserFactory.of());
     }
 
-    public static UserCreateEditDto userCreateEditDto() {
-        return mapToUserCreateEditDto(UserFactory.of());
+    public static UserReadDto userReadDto(User user) {
+        return mapToUserReadDto(user);
     }
 
     public static List<UserReadDto> userReadDtoList() {
@@ -30,16 +29,6 @@ public class UserDtoFactory {
                 .fullname(user.getFullname())
                 .street(user.getStreet())
                 .city(CityReadDtoFactory.of())
-                .role(user.getRole())
-                .build();
-    }
-
-    private static UserCreateEditDto mapToUserCreateEditDto(User user) {
-        return UserCreateEditDto.builder()
-                .username(user.getUsername())
-                .fullname(user.getFullname())
-                .street(user.getStreet())
-                .cityId(1)
                 .role(user.getRole())
                 .build();
     }

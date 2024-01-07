@@ -38,7 +38,7 @@ class UserRepositoryTest extends IntegrationTestBase {
 
     @Test
     void checkQueries() {
-        var users = userRepository.findAllBy("erTe", "st2");
+        var users = userRepository.findAllBy("ditDtoF", "eTest3");
         ListAssert<User> userListAssert = assertThat(users);
         userListAssert.hasSize(1);
     }

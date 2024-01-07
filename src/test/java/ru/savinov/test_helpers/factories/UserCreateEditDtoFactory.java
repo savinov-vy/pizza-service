@@ -2,6 +2,7 @@ package ru.savinov.test_helpers.factories;
 
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.entities.Role;
+import ru.savinov.pizzaservice.entities.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,11 +12,11 @@ public class UserCreateEditDtoFactory {
 
     public static UserCreateEditDto of() {
         return UserCreateEditDto.builder()
-                .username("userNameTest")
-                .password("userPasswordTest")
+                .username("UserCreateEditDtoNameTest")
+                .password("UserCreateEditDtoPasswordTest")
                 .cityId(1)
-                .street("StreetUserTest")
-                .fullname("FullNameUserTest")
+                .street("UserCreateEditDtoStreetTest")
+                .fullname("UserCreateEditDtoFullNameTest")
                 .role(Role.USER)
                 .build();
     }
@@ -28,6 +29,20 @@ public class UserCreateEditDtoFactory {
                     user.setPassword(user.getPassword() + suffix);
                     return user;
                 }).collect(Collectors.toList());
+    }
+
+    public static UserCreateEditDto userCreateEditDto() {
+        return mapToUserCreateEditDto(UserFactory.of());
+    }
+
+    private static UserCreateEditDto mapToUserCreateEditDto(User user) {
+        return UserCreateEditDto.builder()
+                .username(user.getUsername())
+                .fullname(user.getFullname())
+                .street(user.getStreet())
+                .cityId(1)
+                .role(user.getRole())
+                .build();
     }
 
 }

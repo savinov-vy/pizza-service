@@ -53,7 +53,7 @@ public class UserServiceTest extends IntegrationTestBase {
         Optional<UserReadDto> maybeUser = userService.findById(userId);
         assertTrue(maybeUser.isPresent());
         maybeUser.ifPresent(user -> {
-            assertEquals("FullNameUserTest", user.getFullname());
+            assertEquals("UserCreateEditDtoFullNameTest", user.getFullname());
             assertEquals(Role.USER, user.getRole());
         });
     }

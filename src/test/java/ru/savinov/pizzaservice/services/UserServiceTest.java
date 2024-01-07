@@ -16,6 +16,7 @@ import ru.savinov.pizzaservice.exceptions.UserExistException;
 import ru.savinov.pizzaservice.mapper.UserCreateEditDtoMapper;
 import ru.savinov.pizzaservice.mapper.UserReadMapper;
 import ru.savinov.pizzaservice.repositories.UserRepository;
+import ru.savinov.test_helpers.factories.UserCreateEditDtoFactory;
 import ru.savinov.test_helpers.factories.UserDtoFactory;
 import ru.savinov.test_helpers.factories.UserFactory;
 
@@ -97,7 +98,7 @@ class UserServiceTest {
 
     @Test
     void create() {
-        UserCreateEditDto userDto = UserDtoFactory.userCreateEditDto();
+        UserCreateEditDto userDto = UserCreateEditDtoFactory.userCreateEditDto();
         User toSave = UserFactory.of(userDto);
         UserReadDto userReadDto = UserDtoFactory.userReadDto();
 
@@ -120,7 +121,7 @@ class UserServiceTest {
 
     @Test
     void create__userExist() {
-        UserCreateEditDto userDto = UserDtoFactory.userCreateEditDto();
+        UserCreateEditDto userDto = UserCreateEditDtoFactory.userCreateEditDto();
         User toSave = UserFactory.of(userDto);
 
         User saved = UserFactory.of(userDto);
@@ -144,7 +145,7 @@ class UserServiceTest {
 
     @Test
     void create__checkWorkingPublishEvent() {
-        UserCreateEditDto userDto = UserDtoFactory.userCreateEditDto();
+        UserCreateEditDto userDto = UserCreateEditDtoFactory.userCreateEditDto();
         User toSave = UserFactory.of(userDto);
         UserReadDto userReadDto = UserDtoFactory.userReadDto();
 
@@ -165,7 +166,7 @@ class UserServiceTest {
 
     @Test
     void create__checkArgumentsEntityEvent() {
-        UserCreateEditDto userDto = UserDtoFactory.userCreateEditDto();
+        UserCreateEditDto userDto = UserCreateEditDtoFactory.userCreateEditDto();
         User toSave = UserFactory.of(userDto);
         UserReadDto userReadDto = UserDtoFactory.userReadDto();
         ArgumentCaptor<EntityEvent> eventCaptor = ArgumentCaptor.forClass(EntityEvent.class);
@@ -180,11 +181,31 @@ class UserServiceTest {
 
         subject.create(userDto);
 
-        verify(publisher, times(1))
-                .publishEvent(eventCaptor.capture());
+        verify(publisher, times(1)).publishEvent(eventCaptor.capture());
         EntityEvent captured = eventCaptor.getValue();
-
         assertThat(captured.getAccessType()).isEqualTo(AccessType.CREATE);
         assertThat(captured.getSource()).isEqualTo(userDto);
     }
+
+    @Test
+    void update() {
+        UserCreateEditDto fromDto = UserCreateEditDtoFactory.of();
+        User toUser = UserFactory.of();
+        User mapped = UserFactory.of(fromDto);
+        UserReadDto userReadDto = UserDtoFactory.userReadDto(mapped);
+
+        when(userRepo.findById(1L)).thenReturn(Optional.of(toUser));
+        when(userCreateEditDtoMapper.map(fromDto, toUser)).thenReturn(mapped);
+        when(userRepo.saveAndFlush(mapped)).thenReturn(mapped);
+        when(userReadMapper.map(mapped)).thenReturn(userReadDto);
+
+        Optional<UserReadDto> actual = subject.update(1L, fromDto);
+
+        verify(userRepo, times(1)).findById(1L);
+        verify(userCreateEditDtoMapper, times(1)).map(fromDto, toUser);
+        verify(userRepo, times(1)).saveAndFlush(mapped);
+        assertThat(actual).isPresent();
+        assertThat(actual).isEqualTo(Optional.of(userReadDto));
+    }
+
 }
