@@ -208,4 +208,43 @@ class UserServiceTest {
         assertThat(actual).isEqualTo(Optional.of(userReadDto));
     }
 
+    @Test
+    void update__checkWorkingPublishEvent() {
+        UserCreateEditDto fromDto = UserCreateEditDtoFactory.of();
+        User toUser = UserFactory.of();
+        User mapped = UserFactory.of(fromDto);
+        UserReadDto userReadDto = UserDtoFactory.userReadDto(mapped);
+
+        when(userRepo.findById(1L)).thenReturn(Optional.of(toUser));
+        when(userCreateEditDtoMapper.map(fromDto, toUser)).thenReturn(mapped);
+        when(userRepo.saveAndFlush(mapped)).thenReturn(mapped);
+        when(userReadMapper.map(mapped)).thenReturn(userReadDto);
+
+        subject.update(1L, fromDto);
+
+        verify(publisher, times(1))
+                .publishEvent(any(EntityEvent.class));
+    }
+
+    @Test
+    void update__checkArgumentsEntityEvent() {
+        UserCreateEditDto fromDto = UserCreateEditDtoFactory.of();
+        User toUser = UserFactory.of();
+        User mapped = UserFactory.of(fromDto);
+        UserReadDto userReadDto = UserDtoFactory.userReadDto(mapped);
+        ArgumentCaptor<EntityEvent> eventCaptor = ArgumentCaptor.forClass(EntityEvent.class);
+
+        when(userRepo.findById(1L)).thenReturn(Optional.of(toUser));
+        when(userCreateEditDtoMapper.map(fromDto, toUser)).thenReturn(mapped);
+        when(userRepo.saveAndFlush(mapped)).thenReturn(mapped);
+        when(userReadMapper.map(mapped)).thenReturn(userReadDto);
+
+        subject.update(1L, fromDto);
+
+        verify(publisher, times(1)).publishEvent(eventCaptor.capture());
+        EntityEvent captured = eventCaptor.getValue();
+        assertThat(captured.getAccessType()).isEqualTo(AccessType.UPDATE);
+        assertThat(captured.getSource()).isEqualTo(fromDto);
+    }
+
 }
