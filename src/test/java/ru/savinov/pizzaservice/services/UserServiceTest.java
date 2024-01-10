@@ -29,10 +29,12 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -116,7 +118,7 @@ class UserServiceTest {
                 () -> verify(publisher, times(1))
                         .publishEvent(any(EntityEvent.class))
         );
-
+        verify(userRepo, times(1)).save(toSave);
     }
 
     @Test
@@ -206,6 +208,7 @@ class UserServiceTest {
         verify(userRepo, times(1)).saveAndFlush(mapped);
         assertThat(actual).isPresent();
         assertThat(actual).isEqualTo(Optional.of(userReadDto));
+        verify(userRepo, times(1)).saveAndFlush(mapped);
     }
 
     @Test
@@ -245,6 +248,27 @@ class UserServiceTest {
         EntityEvent captured = eventCaptor.getValue();
         assertThat(captured.getAccessType()).isEqualTo(AccessType.UPDATE);
         assertThat(captured.getSource()).isEqualTo(fromDto);
+    }
+
+    @Test
+    void delete() {
+        User founded = UserFactory.of();
+
+        when(userRepo.findById(1L)).thenReturn(Optional.of(founded));
+
+        boolean result = subject.delete(1L);
+        assertTrue(result);
+        verify(userRepo).delete(founded);
+        verify(userRepo, times(1)).flush();
+    }
+
+    @Test
+    void delete__userNotExist() {
+        when(userRepo.findById(1L)).thenReturn(Optional.empty());
+
+        boolean result = subject.delete(1L);
+        assertFalse(result);
+        verify(userRepo, never()).flush();
     }
 
 }
