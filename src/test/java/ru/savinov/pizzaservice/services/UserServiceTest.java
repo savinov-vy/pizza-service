@@ -52,10 +52,22 @@ class UserServiceTest {
     private ApplicationEventPublisher publisher;
 
     private UserService subject;
+    private Long userId;
+    private Long badUserId;
+    private User founded;
+    private UserCreateEditDto userCreateEditDto;
+    private UserReadDto userReadDto;
+    private User mapped;
 
     @BeforeEach
     void setUp() {
         subject = new UserService(userRepo, publisher, userReadMapper, userCreateEditDtoMapper);
+        userId = 1L;
+        badUserId = 111L;
+        founded = UserFactory.of();
+        userCreateEditDto = UserCreateEditDtoFactory.of();
+        userReadDto = UserDtoFactory.of();
+        mapped = UserFactory.of(userCreateEditDto);
     }
 
     @Test
@@ -78,13 +90,12 @@ class UserServiceTest {
 
     @Test
     void findById() {
-        User user = UserFactory.of();
-        UserReadDto expected = UserDtoFactory.userReadDto();
+        UserReadDto expected = UserDtoFactory.of(founded);
 
-        when(userRepo.findById(user.getId())).thenReturn(Optional.of(user));
-        when(userReadMapper.map(user)).thenReturn(expected);
+        when(userRepo.findById(userId)).thenReturn(Optional.of(founded));
+        when(userReadMapper.map(founded)).thenReturn(expected);
 
-        Optional<UserReadDto> maybeUserReadDto = subject.findById(user.getId());
+        Optional<UserReadDto> maybeUserReadDto = subject.findById(userId);
         assertTrue(maybeUserReadDto.isPresent());
         maybeUserReadDto.ifPresent(actualResult ->
                 assertEquals(expected, actualResult, "userReadDto is not expected"));
@@ -92,27 +103,24 @@ class UserServiceTest {
 
     @Test
     void findById__bad_Id() {
-        Long badId = 111L;
-        when(userRepo.findById(badId)).thenReturn(Optional.empty());
-        Optional<UserReadDto> maybeUserReadDto = subject.findById(badId);
+        when(userRepo.findById(badUserId)).thenReturn(Optional.empty());
+        Optional<UserReadDto> maybeUserReadDto = subject.findById(badUserId);
         assertTrue(maybeUserReadDto.isEmpty());
     }
 
     @Test
     void create() {
-        UserCreateEditDto userDto = UserCreateEditDtoFactory.userCreateEditDto();
-        User toSave = UserFactory.of(userDto);
-        UserReadDto userReadDto = UserDtoFactory.userReadDto();
+        User toSave = UserFactory.of(userCreateEditDto);
 
-        User saved = UserFactory.of(userDto);
-        saved.setId(1L);
+        User saved = UserFactory.of(userCreateEditDto);
+        saved.setId(userId);
 
-        when(userCreateEditDtoMapper.map(userDto)).thenReturn(toSave);
+        when(userCreateEditDtoMapper.map(userCreateEditDto)).thenReturn(toSave);
         when(userRepo.save(toSave)).thenReturn(saved);
         when(userRepo.findByUsername(toSave.getUsername())).thenReturn(Optional.empty());
         when(userReadMapper.map(saved)).thenReturn(userReadDto);
 
-        UserReadDto actual = subject.create(userDto);
+        UserReadDto actual = subject.create(userCreateEditDto);
         assertAll(
                 () -> assertThat(userReadDto).isEqualTo(actual),
                 () -> verify(publisher, times(1))
@@ -123,18 +131,16 @@ class UserServiceTest {
 
     @Test
     void create__userExist() {
-        UserCreateEditDto userDto = UserCreateEditDtoFactory.userCreateEditDto();
-        User toSave = UserFactory.of(userDto);
+        User toSave = UserFactory.of(userCreateEditDto);
+        User saved = UserFactory.of(userCreateEditDto);
 
-        User saved = UserFactory.of(userDto);
-
-        when(userCreateEditDtoMapper.map(userDto)).thenReturn(toSave);
+        when(userCreateEditDtoMapper.map(userCreateEditDto)).thenReturn(toSave);
         when(userRepo.findByUsername(toSave.getUsername())).thenReturn(Optional.of(saved));
 
         assertAll(
                 () -> {
                     var exception = assertThrows(UserExistException.class,
-                            () -> subject.create(userDto));
+                            () -> subject.create(userCreateEditDto));
 
                     String message = exception.getMessage();
                     assertThat(message).isEqualTo("A user with login '%s' already exists",
@@ -147,64 +153,56 @@ class UserServiceTest {
 
     @Test
     void create__checkWorkingPublishEvent() {
-        UserCreateEditDto userDto = UserCreateEditDtoFactory.userCreateEditDto();
-        User toSave = UserFactory.of(userDto);
-        UserReadDto userReadDto = UserDtoFactory.userReadDto();
+        User toSave = UserFactory.of(userCreateEditDto);
 
-        User saved = UserFactory.of(userDto);
-        saved.setId(1L);
+        User saved = UserFactory.of(userCreateEditDto);
+        saved.setId(userId);
 
-        when(userCreateEditDtoMapper.map(userDto)).thenReturn(toSave);
+        when(userCreateEditDtoMapper.map(userCreateEditDto)).thenReturn(toSave);
         when(userRepo.save(toSave)).thenReturn(saved);
         when(userRepo.findByUsername(toSave.getUsername())).thenReturn(Optional.empty());
         when(userReadMapper.map(saved)).thenReturn(userReadDto);
 
-        subject.create(userDto);
+        subject.create(userCreateEditDto);
 
         verify(publisher, times(1))
                 .publishEvent(any(EntityEvent.class));
-
     }
 
     @Test
     void create__checkArgumentsEntityEvent() {
-        UserCreateEditDto userDto = UserCreateEditDtoFactory.userCreateEditDto();
-        User toSave = UserFactory.of(userDto);
-        UserReadDto userReadDto = UserDtoFactory.userReadDto();
+        User toSave = UserFactory.of(userCreateEditDto);
         ArgumentCaptor<EntityEvent> eventCaptor = ArgumentCaptor.forClass(EntityEvent.class);
 
-        User saved = UserFactory.of(userDto);
-        saved.setId(1L);
+        User saved = UserFactory.of(userCreateEditDto);
+        saved.setId(userId);
 
-        when(userCreateEditDtoMapper.map(userDto)).thenReturn(toSave);
+        when(userCreateEditDtoMapper.map(userCreateEditDto)).thenReturn(toSave);
         when(userRepo.save(toSave)).thenReturn(saved);
         when(userRepo.findByUsername(toSave.getUsername())).thenReturn(Optional.empty());
         when(userReadMapper.map(saved)).thenReturn(userReadDto);
 
-        subject.create(userDto);
+        subject.create(userCreateEditDto);
 
         verify(publisher, times(1)).publishEvent(eventCaptor.capture());
         EntityEvent captured = eventCaptor.getValue();
         assertThat(captured.getAccessType()).isEqualTo(AccessType.CREATE);
-        assertThat(captured.getSource()).isEqualTo(userDto);
+        assertThat(captured.getSource()).isEqualTo(userCreateEditDto);
     }
 
     @Test
     void update() {
-        UserCreateEditDto fromDto = UserCreateEditDtoFactory.of();
-        User toUser = UserFactory.of();
-        User mapped = UserFactory.of(fromDto);
-        UserReadDto userReadDto = UserDtoFactory.userReadDto(mapped);
+        UserReadDto userReadDto = UserDtoFactory.of(mapped);
 
-        when(userRepo.findById(1L)).thenReturn(Optional.of(toUser));
-        when(userCreateEditDtoMapper.map(fromDto, toUser)).thenReturn(mapped);
+        when(userRepo.findById(userId)).thenReturn(Optional.of(founded));
+        when(userCreateEditDtoMapper.map(userCreateEditDto, founded)).thenReturn(mapped);
         when(userRepo.saveAndFlush(mapped)).thenReturn(mapped);
         when(userReadMapper.map(mapped)).thenReturn(userReadDto);
 
-        Optional<UserReadDto> actual = subject.update(1L, fromDto);
+        Optional<UserReadDto> actual = subject.update(userId, userCreateEditDto);
 
-        verify(userRepo, times(1)).findById(1L);
-        verify(userCreateEditDtoMapper, times(1)).map(fromDto, toUser);
+        verify(userRepo, times(1)).findById(userId);
+        verify(userCreateEditDtoMapper, times(1)).map(userCreateEditDto, founded);
         verify(userRepo, times(1)).saveAndFlush(mapped);
         assertThat(actual).isPresent();
         assertThat(actual).isEqualTo(Optional.of(userReadDto));
@@ -213,17 +211,14 @@ class UserServiceTest {
 
     @Test
     void update__checkWorkingPublishEvent() {
-        UserCreateEditDto fromDto = UserCreateEditDtoFactory.of();
-        User toUser = UserFactory.of();
-        User mapped = UserFactory.of(fromDto);
-        UserReadDto userReadDto = UserDtoFactory.userReadDto(mapped);
+        UserReadDto userReadDto = UserDtoFactory.of(mapped);
 
-        when(userRepo.findById(1L)).thenReturn(Optional.of(toUser));
-        when(userCreateEditDtoMapper.map(fromDto, toUser)).thenReturn(mapped);
+        when(userRepo.findById(userId)).thenReturn(Optional.of(founded));
+        when(userCreateEditDtoMapper.map(userCreateEditDto, founded)).thenReturn(mapped);
         when(userRepo.saveAndFlush(mapped)).thenReturn(mapped);
         when(userReadMapper.map(mapped)).thenReturn(userReadDto);
 
-        subject.update(1L, fromDto);
+        subject.update(userId, userCreateEditDto);
 
         verify(publisher, times(1))
                 .publishEvent(any(EntityEvent.class));
@@ -231,32 +226,27 @@ class UserServiceTest {
 
     @Test
     void update__checkArgumentsEntityEvent() {
-        UserCreateEditDto fromDto = UserCreateEditDtoFactory.of();
-        User toUser = UserFactory.of();
-        User mapped = UserFactory.of(fromDto);
-        UserReadDto userReadDto = UserDtoFactory.userReadDto(mapped);
+        UserReadDto userReadDto = UserDtoFactory.of(mapped);
         ArgumentCaptor<EntityEvent> eventCaptor = ArgumentCaptor.forClass(EntityEvent.class);
 
-        when(userRepo.findById(1L)).thenReturn(Optional.of(toUser));
-        when(userCreateEditDtoMapper.map(fromDto, toUser)).thenReturn(mapped);
+        when(userRepo.findById(userId)).thenReturn(Optional.of(founded));
+        when(userCreateEditDtoMapper.map(userCreateEditDto, founded)).thenReturn(mapped);
         when(userRepo.saveAndFlush(mapped)).thenReturn(mapped);
         when(userReadMapper.map(mapped)).thenReturn(userReadDto);
 
-        subject.update(1L, fromDto);
+        subject.update(userId, userCreateEditDto);
 
         verify(publisher, times(1)).publishEvent(eventCaptor.capture());
         EntityEvent captured = eventCaptor.getValue();
         assertThat(captured.getAccessType()).isEqualTo(AccessType.UPDATE);
-        assertThat(captured.getSource()).isEqualTo(fromDto);
+        assertThat(captured.getSource()).isEqualTo(userCreateEditDto);
     }
 
     @Test
     void delete() {
-        User founded = UserFactory.of();
+        when(userRepo.findById(userId)).thenReturn(Optional.of(founded));
 
-        when(userRepo.findById(1L)).thenReturn(Optional.of(founded));
-
-        boolean result = subject.delete(1L);
+        boolean result = subject.delete(userId);
         assertTrue(result);
         verify(userRepo).delete(founded);
         verify(userRepo, times(1)).flush();
@@ -264,11 +254,33 @@ class UserServiceTest {
 
     @Test
     void delete__userNotExist() {
-        when(userRepo.findById(1L)).thenReturn(Optional.empty());
+        when(userRepo.findById(userId)).thenReturn(Optional.empty());
 
-        boolean result = subject.delete(1L);
+        boolean result = subject.delete(userId);
         assertFalse(result);
         verify(userRepo, never()).flush();
+    }
+
+    @Test
+    void delete__checkWorkingPublishEvent() {
+        when(userRepo.findById(userId)).thenReturn(Optional.of(founded));
+        subject.delete(userId);
+        verify(publisher, times(1))
+                .publishEvent(any(EntityEvent.class));
+    }
+
+    @Test
+    void delete__checkArgumentsEntityEvent() {
+        ArgumentCaptor<EntityEvent> eventCaptor = ArgumentCaptor.forClass(EntityEvent.class);
+
+        when(userRepo.findById(userId)).thenReturn(Optional.of(founded));
+
+        subject.delete(userId);
+
+        verify(publisher, times(1)).publishEvent(eventCaptor.capture());
+        EntityEvent captured = eventCaptor.getValue();
+        assertThat(captured.getAccessType()).isEqualTo(AccessType.DELETE);
+        assertThat(captured.getSource()).isEqualTo(founded);
     }
 
 }

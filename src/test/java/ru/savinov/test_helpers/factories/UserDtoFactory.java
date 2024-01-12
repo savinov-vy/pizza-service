@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 public class UserDtoFactory {
 
-    public static UserReadDto userReadDto() {
+    public static UserReadDto of() {
         return mapToUserReadDto(UserFactory.of());
     }
 
-    public static UserReadDto userReadDto(User user) {
+    public static UserReadDto of(User user) {
         return mapToUserReadDto(user);
     }
 

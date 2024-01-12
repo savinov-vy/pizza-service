@@ -31,18 +31,4 @@ public class UserCreateEditDtoFactory {
                 }).collect(Collectors.toList());
     }
 
-    public static UserCreateEditDto userCreateEditDto() {
-        return mapToUserCreateEditDto(UserFactory.of());
-    }
-
-    private static UserCreateEditDto mapToUserCreateEditDto(User user) {
-        return UserCreateEditDto.builder()
-                .username(user.getUsername())
-                .fullname(user.getFullname())
-                .street(user.getStreet())
-                .cityId(1)
-                .role(user.getRole())
-                .build();
-    }
-
 }
