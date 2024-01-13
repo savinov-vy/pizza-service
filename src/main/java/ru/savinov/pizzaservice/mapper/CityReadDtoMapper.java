@@ -12,6 +12,7 @@ public class CityReadDtoMapper implements Mapper<City, CityReadDto> {
         return CityReadDto.builder()
                 .id(object.getId())
                 .name(object.getName())
+                .locales(object.getLocales())
                 .build();
     }
 
