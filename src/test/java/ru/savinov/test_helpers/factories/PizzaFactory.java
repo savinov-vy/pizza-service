@@ -7,7 +7,7 @@ public class PizzaFactory {
     public static Pizza of(String namePizza) {
         return Pizza.builder()
                 .name(namePizza)
-                .ingredients(IngredientFactory.of())
+                .ingredients(IngredientFactory.ingredients())
                 .build();
     }
 

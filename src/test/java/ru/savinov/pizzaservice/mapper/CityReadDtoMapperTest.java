@@ -26,6 +26,8 @@ class CityReadDtoMapperTest {
     @MethodSource("getArgumentsMapTest")
     void map(CityReadDto expected, City city) {
         CityReadDto actual = subject.map(city);
+
+        assertThat(actual).isNotNull();
         assertThat(actual).isEqualTo(expected);
     }
 
