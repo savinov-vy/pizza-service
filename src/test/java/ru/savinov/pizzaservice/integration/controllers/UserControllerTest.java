@@ -40,6 +40,7 @@ class UserControllerTest extends IntegrationTestBase {
     }
 
     @Test
+    @Transactional(readOnly = true)
     void findAll() throws Exception {
         mockMvc.perform(get("/users"))
                 .andExpect(status().is2xxSuccessful())
