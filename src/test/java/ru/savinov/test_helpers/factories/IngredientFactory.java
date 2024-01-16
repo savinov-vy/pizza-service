@@ -29,17 +29,17 @@ public class IngredientFactory {
 
     public static Ingredient withName() {
         return Ingredient.builder()
-                .id("ID")
-                .name(null)
+                .id(null)
+                .name("SalsaNameTest")
                 .type(null)
                 .build();
     }
 
     public static Ingredient withType() {
         return Ingredient.builder()
-                .id("ID")
+                .id(null)
                 .name(null)
-                .type(null)
+                .type(Ingredient.Type.CHEESE)
                 .build();
     }
 

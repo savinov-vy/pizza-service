@@ -24,8 +24,17 @@ class IngredientDtoMapperTest {
 
     @ParameterizedTest
     @MethodSource("getArgumentsMapTest")
-    void map(IngredientDto expected, Ingredient ingredient) {
+    void map_fromIngredientToDto(IngredientDto expected, Ingredient ingredient) {
         IngredientDto actual = subject.map(ingredient);
+
+        assertThat(actual).isNotNull();
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @MethodSource("getArgumentsMapTest")
+    void map_fromDtoToIngredient(IngredientDto ingredientDto, Ingredient expected) {
+        Ingredient actual = subject.map(ingredientDto);
 
         assertThat(actual).isNotNull();
         assertThat(actual).isEqualTo(expected);
@@ -38,6 +47,23 @@ class IngredientDtoMapperTest {
                 Arguments.of(IngredientDtoFactory.withId(), IngredientFactory.withId()),
                 Arguments.of(IngredientDtoFactory.withName(), IngredientFactory.withName()),
                 Arguments.of(IngredientDtoFactory.withType(), IngredientFactory.withType())
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("getArgumentsMapPatchTest")
+    void map_patch(IngredientDto fromDto, Ingredient toIngredient, Ingredient expected) {
+        Ingredient actual = subject.map(fromDto, toIngredient);
+
+        assertThat(actual).isNotNull();
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> getArgumentsMapPatchTest() {
+        return Stream.of(
+                Arguments.of(IngredientDtoFactory.withName(), IngredientFactory.empty(), IngredientFactory.withName()),
+                Arguments.of(IngredientDtoFactory.withType(), IngredientFactory.empty(), IngredientFactory.withType()),
+                Arguments.of(IngredientDtoFactory.empty(), IngredientFactory.empty(), IngredientFactory.empty())
         );
     }
 
