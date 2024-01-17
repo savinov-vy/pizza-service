@@ -7,12 +7,13 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import ru.savinov.pizzaservice.integration.IntegrationTestBase;
 
 import java.util.concurrent.TimeUnit;
 
 
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HomeControllerTest {
+public class HomeControllerTest extends IntegrationTestBase {
 
     @LocalServerPort
     private int port;
