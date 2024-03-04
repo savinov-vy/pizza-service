@@ -29,7 +29,7 @@
                 <a th:href="@{'/users/' + ${user.id}}" th:text="|${user.username}|"></a>
             </td>
             <td th:text="${user.fullname}"></td>
-            <td th:text="${user.city.name}"></td>
+            <td th:text="${user?.city?.name}"></td>
             <td th:text="${user.street}"></td>
             <td th:text="${user.role}"></td>
         </tr>

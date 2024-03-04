@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests(urlConfig -> urlConfig
                         .antMatchers("/", "/login", "/register", "/images/**").permitAll()
                         .antMatchers("/orders", "/orders/**").hasAuthority(USER.getAuthority())
-                        .antMatchers("/users").hasAuthority(ADMIN.getAuthority())
+                        .antMatchers("/users", "/api/**").hasAuthority(ADMIN.getAuthority())
                         .anyRequest().authenticated())
 
                 .httpBasic(Customizer.withDefaults())
