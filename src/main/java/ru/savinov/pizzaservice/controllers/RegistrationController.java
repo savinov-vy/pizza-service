@@ -47,10 +47,4 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
-    @GetMapping("/login-error")
-    public String loginError(Model model) {
-        model.addAttribute("loginError", "Unable to login. Check your username and password.");
-        return "login";
-    }
-
 }

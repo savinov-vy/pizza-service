@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import ru.savinov.pizzaservice.exceptions.handlers.UserSimpleUrlAuthenticationFailureHandler;
 import ru.savinov.pizzaservice.services.UserService;
 
 import java.lang.reflect.Method;
@@ -26,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final UserService userService;
+    private final UserSimpleUrlAuthenticationFailureHandler failureHandler;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -40,9 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .formLogin(login -> login
                         .loginPage("/login").loginProcessingUrl("/authenticateTheUser")
-                        .failureUrl("/register/login-error")
-                        .defaultSuccessUrl("/design")
-                        .loginProcessingUrl("/authenticateTheUser"))
+                        .failureHandler(failureHandler)
+                        .defaultSuccessUrl("/design"))
 
                 .logout(logout -> logout
                         .logoutUrl("/logout")

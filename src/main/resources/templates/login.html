@@ -26,8 +26,8 @@
         <div>Login or registration with:</div>
         <a href="/oauth2/authorization/google">Google</a>
     </div>
+    <p th:if="${loginError}" th:text="${loginError}" style="color: red">Wrong login or password</p>
 
-    <p th:if="${loginError}" th:text="${loginError}" style="color: red">Wrong user or password</p>
 </form>
 </body>
 </html>
