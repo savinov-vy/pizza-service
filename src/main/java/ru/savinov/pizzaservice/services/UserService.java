@@ -28,6 +28,7 @@ public class UserService {
     private final ApplicationEventPublisher eventPublisher;
     private final UserReadMapper userReadMapper;
     private final UserCreateEditDtoMapper userCreateEditDtoMapper;
+    private final ImageService imageService;
 
     public List<UserReadDto> findAll() {
         return userRepo.findAll().stream()
@@ -43,11 +44,13 @@ public class UserService {
     @Transactional
     public UserReadDto create(UserCreateEditDto userDto) {
         eventPublisher.publishEvent(new EntityEvent(userDto, AccessType.CREATE));
-        return Optional.of(userDto)
+        UserReadDto savedUser = Optional.of(userDto)
                 .map(userCreateEditDtoMapper::map)
                 .map(this::saveIsNotExist)
                 .map(userReadMapper::map)
                 .orElseThrow();
+        imageService.writeImage(userDto.getImage());
+        return savedUser;
     }
 
     @Transactional

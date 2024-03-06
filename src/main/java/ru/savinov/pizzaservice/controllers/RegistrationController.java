@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.savinov.pizzaservice.controllers.dto.UserCreateEditDto;
 import ru.savinov.pizzaservice.services.CityService;
 import ru.savinov.pizzaservice.services.UserService;
-import ru.savinov.pizzaservice.validation.registration.PasswordConfirmed;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String processRegistration(@Validated(PasswordConfirmed.class) UserCreateEditDto form,
+    public String processRegistration(@Validated UserCreateEditDto form,
                                       Errors errors, Model model) {
         if (errors.hasErrors()) {
             List<String> allErrors = errors.getAllErrors().stream()

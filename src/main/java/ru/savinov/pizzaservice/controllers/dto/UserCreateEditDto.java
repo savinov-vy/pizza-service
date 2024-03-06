@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
+import org.springframework.web.multipart.MultipartFile;
 import ru.savinov.pizzaservice.entities.Role;
 import ru.savinov.pizzaservice.validation.registration.PasswordConfirmed;
 import ru.savinov.pizzaservice.validation.registration.UserCreateInfo;
@@ -29,6 +30,8 @@ public class UserCreateEditDto {
 
     @Size(min = 1, message = "Enter your fullname")
     private String fullname;
+
+    private MultipartFile image;
 
     @Size(min = 1, message = "Enter your street")
     private String street;

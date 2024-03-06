@@ -48,6 +48,9 @@ public class User extends AuditingEntity<Long> implements UserDetails {
     @Column(name = "fullname")
     private String fullname;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "street")
     private String street;
 

@@ -50,6 +50,8 @@ class UserServiceTest {
     private UserCreateEditDtoMapper userCreateEditDtoMapper;
     @Mock
     private ApplicationEventPublisher publisher;
+    @Mock
+    private ImageService imageService;
 
     private UserService subject;
     private Long userId;
@@ -61,7 +63,7 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        subject = new UserService(userRepo, publisher, userReadMapper, userCreateEditDtoMapper);
+        subject = new UserService(userRepo, publisher, userReadMapper, userCreateEditDtoMapper, imageService);
         userId = 1L;
         badUserId = 111L;
         founded = UserFactory.of();

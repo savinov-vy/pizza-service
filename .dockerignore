@@ -7,7 +7,7 @@ target/
 .git
 .settings
 .idea
-
+images/
 
 
 ### STS ###

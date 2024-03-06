@@ -29,6 +29,7 @@ public class UserCreateEditDtoMapper implements Mapper<UserCreateEditDto, User> 
         return User.builder()
                 .fullname(object.getFullname())
                 .username(object.getUsername())
+                .image(object.getImage().getOriginalFilename())
                 .password(Optional.ofNullable(object.getPassword())
                         .filter(StringUtils::hasText)
                         .map(passwordEncoder::encode).orElseThrow(() -> new PasswordNullException(PASSWORD_MUST_FILLED)))
@@ -42,6 +43,7 @@ public class UserCreateEditDtoMapper implements Mapper<UserCreateEditDto, User> 
     public User map(UserCreateEditDto fromDto, User toUser) {
         toUser.setFullname(fromDto.getFullname());
         toUser.setUsername(fromDto.getUsername());
+        toUser.setImage(fromDto.getImage().getOriginalFilename());
         toUser.setRole(fromDto.getRole());
         toUser.setStreet(fromDto.getStreet());
         toUser.setCity(getCity(fromDto.getCityId()));

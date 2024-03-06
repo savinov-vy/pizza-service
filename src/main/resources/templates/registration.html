@@ -10,10 +10,15 @@
 <img th:src="@{/images/PizzaEnjoy.png}"/>
 
 <form style="margin-left: 30px; display: flex; flex-direction: column; align-items: baseline;" method="POST"
-      th:action="@{/register}" id="registerForm">
-        <p style="display: block; color: red" th:if="${errorMessages}"
-              th:each="error : ${errorMessages}"
-              th:text="${error}">error user registration</p>
+      th:action="@{/register}" id="registerForm"
+      enctype="multipart/form-data">
+
+    <p style="display: block; color: red" th:if="${errorMessages}"
+       th:each="error : ${errorMessages}"
+       th:text="${error}">error user registration</p>
+
+    <label for="user-image">Avatar:</label>
+    <input id="user-image" type="file" name="image"/><br/>
 
     <label for="username">Username: </label>
     <input id="username" type="text" name="username"/><br/>

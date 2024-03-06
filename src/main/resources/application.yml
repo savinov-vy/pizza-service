@@ -34,3 +34,8 @@ pizza:
     sizePage: 2
   show:
     page: 0
+
+app:
+  upload:
+    bucket: "/home/naglezh/IdeaProjects/1. myProjects/pizza-service/images"
+    buffer-size: 8192
